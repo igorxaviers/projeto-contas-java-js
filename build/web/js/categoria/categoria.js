@@ -5,6 +5,7 @@ categorias = {
     listaCategorias: () => {
         HTTPClient.get('/Categoria?acao=listar')
         .then(categorias => {
+            console.log(categorias)
             return categorias.json();
         })
         .then(categorias => {

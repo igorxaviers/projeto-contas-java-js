@@ -25,7 +25,8 @@ import model.Usuario;
 @WebServlet(name = "UsuarioController", urlPatterns = {"/Usuario"})
 public class UsuarioController extends HttpServlet {
 
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("application/json; charset=utf-8");
         String acao = request.getParameter("acao"); 
         if(acao.equals("busca"))
@@ -41,11 +42,6 @@ public class UsuarioController extends HttpServlet {
             uList = new Usuario().getUsuarios("", Banco.getConexao());
             response.getWriter().print(new Gson().toJson(uList));
         }
-    }
-
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        processRequest(request, response);
     }
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

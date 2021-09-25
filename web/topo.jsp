@@ -1,17 +1,26 @@
-<!DOCTYPE html>
-<html lang="en">
+<%@page import="model.Usuario"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
+<% 
+    Usuario u = (Usuario) session.getAttribute("usuario"); 
+%>
+
+
+<!DOCTYPE html>
+<html lang="pt-br">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>Categorias</title>
+    <title>SB Admin 2 - Dashboard</title>
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
     <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link href="../css/sb-admin-2.css" rel="stylesheet">
+<script src="../js/HTTPClient.js"></script>
+
 </head>
 
 <body id="page-top">
@@ -49,7 +58,7 @@
                 </div>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="tables.html">
+                <a class="nav-link" href="/categoria">
                     <i class="fas fa-fw fa-table"></i>
                     <span>Categorias</span></a>
             </li>
@@ -100,7 +109,7 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Douglas McGee</span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Bem vindo <%= u.getNome() %></span>
                                 <img class="img-profile rounded-circle"
                                     src="../img/undraw_profile.svg">
                             </a>
@@ -119,7 +128,7 @@
                                     Activity Log
                                 </a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                                <a class="dropdown-item" href="/Logout" data-toggle="modal" data-target="#logoutModal">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Logout
                                 </a>
@@ -127,92 +136,3 @@
                         </li>
                     </ul>
                 </nav>
-                <div class="container-fluid">
-                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Categorias</h1>
-                    </div>
-                    <div class="mb-4 d-flex">
-                        <button class="btn btn-dark mr-3" onclick="categorias.mostraForm('cadastrar')">Cadastrar</button>
-                    </div>
-                    <form id="form-categoria" class="card p-4 my-3 d-none">
-                        <div class="row justify-content-end">
-                            <button onclick="categorias.fechar()" type="button" class="btn btn-danger" style="width: fit-content"><i class="fas fa-times"></i> Fechar</button>
-                        </div>
-                        <div class="row">
-                            <div class="col-6">
-                                <input type="hidden" value="" name="id" id="id-categoria">
-                                <div class="mb-3">
-                                    <label for="nome" class="form-label">Nome:</label>
-                                    <input type="text" class="form-control" name="nome" placeholder="name@example.com">
-                                </div>
-                            </div>    
-                        </div>
-                        <button id="bt-alterar" onclick="categorias.alterarCategoria()" type="button" class="btn btn-primary w-25">Alterar</button>
-                        <button id="bt-cadastrar" onclick="categorias.cadastrarCategoria()" type="button" class="btn btn-primary w-25">Cadastrar</button>
-                    </form>
-
-                    <div class="card shadow mb-4">
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
-                                    <table class="table table-bordered dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
-                                        <thead>
-                                            <tr role="row">
-                                                <th>Nome</th>
-                                                <th width="100px">Editar</th>
-                                                <th width="100px">Excluir</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="categorias-table"></tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-            </div>
-        </div>
-    </div>
-    <a class="scroll-to-top rounded" href="#page-top">
-        <i class="fas fa-angle-up"></i>
-    </a>
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Bootstrap core JavaScript-->
-    <script src="../vendor/jquery/jquery.min.js"></script>
-    <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-    <!-- Core plugin JavaScript-->
-    <script src="../vendor/jquery-easing/jquery.easing.min.js"></script>
-
-    <!-- Custom scripts for all pages-->
-    <script src="../js/sb-admin-2.min.js"></script>
-    <script src="../js/HTTPClient.js"></script>
-    <script src="../js/categoria/categorias.js"></script>
-
-    <!-- Page level plugins -->
-    <script src="../vendor/chart.js/Chart.min.js"></script>
-
-    <!-- Page level custom scripts -->
-    <script src="../js/demo/chart-area-demo.js"></script>
-    <script src="../js/demo/chart-pie-demo.js"></script>
-
-</body>
-
-</html>

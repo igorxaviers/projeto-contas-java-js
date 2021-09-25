@@ -26,29 +26,30 @@ import model.Usuario;
 @WebServlet(name = "CategoriaController", urlPatterns = {"/Categoria"})
 public class CategoriaController extends HttpServlet {
 
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("application/json; charset=utf-8");
-        
         String acao = request.getParameter("acao"); 
-        if(acao.equals("busca"))
+        if(acao != null) 
         {
-            int id = Integer.parseInt(request.getParameter("id"));
-            Categoria c = new Categoria();
-            c.setId(id);
-            response.getWriter().print(new Gson().toJson(c.getCategoria(Banco.getConexao())));
+            if(acao.equals("busca"))
+            {
+                int id = Integer.parseInt(request.getParameter("id"));
+                Categoria c = new Categoria();
+                c.setId(id);
+                response.getWriter().print(new Gson().toJson(c.getCategoria(Banco.getConexao())));
+            }
         }
         else
         {
+            response.getWriter().print("aaaaaaaa");
+
             ArrayList<Categoria> cList = new ArrayList<>();
             cList = new Categoria().getCategorias("", Banco.getConexao());
             response.getWriter().print(new Gson().toJson(cList));
         }
     }
-
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        processRequest(request, response);
-    }
+    
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         JSONObject OBJ = retornaJson(request);

@@ -24,7 +24,7 @@ import javax.servlet.http.HttpSession;
 
 import model.Usuario;
 
-@WebServlet(name = "LoginController", urlPatterns = {"/Logout"})
+@WebServlet(name = "LogoutController", urlPatterns = {"/Logout"})
 public class LogoutController extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -33,13 +33,14 @@ public class LogoutController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        processRequest(request, response);
+        HttpSession sessao = request.getSession();
+        sessao.invalidate();
+        Banco.getConexao().fecharConexao();
+        response.sendRedirect("/");
     }
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        HttpSession sessao = request.getSession();
-        sessao.invalidate();
-        response.sendRedirect("/");
+
        
     }   
 }

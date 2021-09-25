@@ -3,7 +3,7 @@ usuarios = {
         usuarios.listaUsuarios();
     },
     listaUsuarios: () => {
-        HTTPClient.get('Usuario?acao=listar')
+        HTTPClient.get('/Usuario?acao=listar')
         .then(usuarios => {
             return usuarios.json();
         })
@@ -41,7 +41,7 @@ usuarios = {
         }
         console.log(usu);
 
-        HTTPClient.post('Usuario', usu)
+        HTTPClient.post('/Usuario', usu)
         .then(resp => {
             return resp.text();
         })

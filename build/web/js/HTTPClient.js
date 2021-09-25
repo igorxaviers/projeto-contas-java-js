@@ -1,5 +1,5 @@
 ﻿
-let baseURL = window.location.href;
+let baseURL = window.location.origin;
 
 var HTTPClient = {
 

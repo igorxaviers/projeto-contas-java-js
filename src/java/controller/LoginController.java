@@ -30,7 +30,6 @@ import model.Usuario;
 public class LoginController extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.setContentType("application/json; charset=utf-8");
     }
 
     @Override
@@ -39,37 +38,32 @@ public class LoginController extends HttpServlet {
     }
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        JSONObject OBJ = retornaJson(request);
         Usuario usuario;
         try {
-            usuario = new Usuario(OBJ.getString("login"), OBJ.getString("senha"));
+            usuario = new Usuario(request.getParameter("login"), request.getParameter("senha"));
             if(usuario.validar(Banco.getConexao()))
             {
-                String dados = "{\"url\": \"/usuarios\", \"ok\": true, \"mensagem\": \"Login feito com sucesso\"}";
-                JsonObject json = new JsonParser().parse(dados).getAsJsonObject();
-                response.getWriter().print(json);
+                HttpSession sessao = request.getSession(true);
+                sessao.setAttribute("usuario", usuario);
+
+                // String dados = "{\"url\": \"usuarios\", \"ok\": true, \"mensagem\": \"Login feito com sucesso\"}";
+                // JsonObject json = new JsonParser().parse(dados).getAsJsonObject();
+
+                // response.getWriter().print(json);
+                response.sendRedirect("/usuarios");
             }
             else
             {
-                String dados = "{'url': '', 'ok': false, 'mensagem': 'Dados inválidos'}";
-                response.getWriter().print(new Gson().toJson(dados));
+                HttpSession sessao = request.getSession();
+                sessao.invalidate();
+                // String dados = "{\"url\": \"\", \"ok\": false, \"mensagem\": \"Dados incorretos\"}";
+                // JsonObject json = new JsonParser().parse(dados).getAsJsonObject();
+                // response.getWriter().print(json);
+                response.sendRedirect("/erro");
             }
         } catch (Exception e) {
+            response.sendRedirect("/erro");
             e.printStackTrace();
         }
     }   
-
-    public JSONObject retornaJson(HttpServletRequest request) {
-        JSONObject OBJ;
-        StringBuilder sb = new StringBuilder();
-        String str;
-        try {
-            BufferedReader br = request.getReader();
-            while( (str = br.readLine()) != null ){
-                sb.append(str);
-            }    
-            return OBJ = new JSONObject(sb.toString());
-        } catch (Exception e) {}
-        return new JSONObject();
-    }
 }
