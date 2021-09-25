@@ -1,0 +1,9 @@
+{
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar",
+        "gson-2.8.2.jar",
+        "postgresql-42.1.4.jar",
+        "c:\\Users\\igorr\\Downloads\\javax.servlet-api-4.0.0.jar",
+        "c:\\Users\\igorr\\Desktop\\java-json.jar"
+    ]
+}
