@@ -43,7 +43,7 @@ if (session.getAttribute("usuario") != null) {
                                     <div class="text-center">
                                         <h1 class="h4 text-gray-900 mb-4">BEM-VINDO!</h1>
                                     </div>
-                                    <form method="POST" class="user py-5" id="form-login">
+                                    <form class="user py-5" id="form-login">
                                         <div class="form-group">
                                             <input type="text" name="login" class="form-control form-control-user" placeholder="Login">
                                         </div>

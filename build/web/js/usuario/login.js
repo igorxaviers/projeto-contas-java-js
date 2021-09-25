@@ -9,11 +9,10 @@ usuario = {
 
         HTTPClient.post('Login', dados)
         .then(resp => {
-            console.log(resp)
-            return resp.text();
+            return resp.json();
         })
         .then(resp => {
-            window.location.href = resp;
+            // window.location.href = window.location.href+resp;
             console.log(resp);
         })
         .catch(e => {

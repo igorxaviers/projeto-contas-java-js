@@ -3,6 +3,8 @@ import bd.util.Conexao;
 import bd.util.Banco;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.google.gson.internal.bind.JsonAdapterAnnotationTypeAdapterFactory;
 
 import org.json.JSONArray;
@@ -43,14 +45,14 @@ public class LoginController extends HttpServlet {
             usuario = new Usuario(OBJ.getString("login"), OBJ.getString("senha"));
             if(usuario.validar(Banco.getConexao()))
             {
-                HttpSession sessao = request.getSession(true);
-                sessao.setAttribute("usuario", usuario);
-                response.getWriter().print("/usuarios");
+                String dados = "{\"url\": \"/usuarios\", \"ok\": true, \"mensagem\": \"Login feito com sucesso\"}";
+                JsonObject json = new JsonParser().parse(dados).getAsJsonObject();
+                response.getWriter().print(json);
             }
             else
             {
-                response.getWriter().print(new Gson().toJson("Login incorreto"));
-                Banco.getConexao().fecharConexao();
+                String dados = "{'url': '', 'ok': false, 'mensagem': 'Dados inválidos'}";
+                response.getWriter().print(new Gson().toJson(dados));
             }
         } catch (Exception e) {
             e.printStackTrace();
