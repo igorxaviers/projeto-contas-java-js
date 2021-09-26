@@ -11285,3 +11285,39 @@ footer.sticky-footer .copyright {
 body.sidebar-toggled footer.sticky-footer {
   width: 100%;
 }
+
+.alert {
+  padding: 20px;
+  margin-bottom: 20px;
+  border: 1px solid #eed3d7;
+  border-radius: 8px;
+  position: absolute;
+  bottom: 20px;
+  right: 40px;
+  /* Each alert has its own width */
+  float: right;
+  clear: right;
+  background-color: white;
+  z-index: 100;
+}
+
+.alert-red {
+  color: white;
+  background-color: #DA4453;
+}
+.alert-green {
+  color: white;
+  background-color: #37BC9B;
+}
+.alert-blue {
+  color: white;
+  background-color: #4A89DC;
+}
+.alert-yellow {
+  color: white;
+  background-color: #F6BB42;
+}
+.alert-orange {
+  color:white;
+  background-color: #E9573F;
+}

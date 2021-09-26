@@ -1,9 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-
+<% 
+    if(request.getSession(false) == null) {
+        response.sendRedirect("/login.jsp");
+    }
+%>
 <jsp:include page="../topo.jsp"/>
 <div class="container-fluid">
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">UsuÃ¡rios do sistema</h1>
+        <h1 class="h3 mb-0 text-gray-800">Usuários do sistema</h1>
     </div>
     <div class="mb-4 d-flex">
         <button class="btn btn-dark mr-3" onclick="usuarios.mostraForm('cadastrar')">Cadastrar</button>
@@ -17,32 +21,32 @@
                 <input type="hidden" value="" name="id" id="id-usuario">
                 <div class="mb-3">
                     <label for="nome" class="form-label">Nome:</label>
-                    <input type="text" class="form-control" name="nome" placeholder="name@example.com">
+                    <input type="text" class="form-control" name="nome" placeholder="name@example.com" required>
                 </div>
                 <div class="mb-3">
                     <label for="login" class="form-label">Login:</label>
-                    <input type="text" class="form-control" name="login" placeholder="Seu login aqui">
+                    <input type="text" class="form-control" name="login" placeholder="Seu login aqui" required>
                 </div>
                 <div class="mb-3">
                     <label for="senha" class="form-label">Senha:</label>
-                    <input type="password" class="form-control" name="senha" placeholder="*********">
+                    <input type="password" class="form-control" name="senha" placeholder="*********" required>
                 </div>
             </div>
             <div class="col-6">
                 <div class="mb-3">
                     <label for="admin" class="form-label">Admin:</label>
-                    <select class="form-select" name="admin">
-                        <option selected hidden disabled>Selecione uma opÃ§Ã£o</option>
+                    <select class="form-select" name="admin" required>
+                        <option selected hidden disabled>Selecione uma opção</option>
                         <option value="true">Sim</option>
-                        <option value="false">NÃ£o</option>
+                        <option value="false">Não</option>
                     </select>
                 </div>
                 <div class="mb-3">
                     <label for="ativo" class="form-label">Ativo:</label>
-                    <select class="form-select" name="ativo">
-                        <option selected hidden disabled>Selecione uma opÃ§Ã£o</option>
+                    <select class="form-select" name="ativo" required>
+                        <option selected hidden disabled>Selecione uma opção</option>
                         <option value="true">Sim</option>
-                        <option value="false">NÃ£o</option>
+                        <option value="false">Não</option>
                     </select>
                 </div>
             </div>

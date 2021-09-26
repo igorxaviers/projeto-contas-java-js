@@ -1,4 +1,9 @@
-
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<% 
+    if(request.getSession(false) == null) {
+        response.sendRedirect("/login.jsp");
+    }
+%>
 <jsp:include page="../topo.jsp"/>
 <div class="container-fluid">
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
@@ -16,7 +21,7 @@
                 <input type="hidden" value="" name="id" id="id-categoria">
                 <div class="mb-3">
                     <label for="nome" class="form-label">Nome:</label>
-                    <input type="text" class="form-control" name="nome" placeholder="name@example.com">
+                    <input type="text" class="form-control" name="nome" placeholder="Nome da categoria" required minlength="1" maxlength="50">
                 </div>
             </div>    
         </div>

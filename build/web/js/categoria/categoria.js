@@ -3,7 +3,7 @@ categorias = {
         categorias.listaCategorias();
     },
     listaCategorias: () => {
-        HTTPClient.get('/Categoria?acao=listar')
+        HTTPClient.get('/Categoria')
         .then(categorias => {
             console.log(categorias)
             return categorias.json();
@@ -15,15 +15,15 @@ categorias = {
                 valores += `
                 <tr>
                     <td>${categoria.nome}</td> 
-                    <td class="text-center"><i class="fas fa-edit" onclick="categorias.mostraForm('alterar',${categoria.id})"></i></td>
-                    <td class="text-center"><i class="fas fa-trash-alt" onclick="categorias.excluir(${categoria.id}, '${categoria.nome}')"></i></td>
+                    <td class="text-center text-warning " onclick="categorias.mostraForm('alterar',${categoria.id})"><i class="fas fa-edit"></i></td>
+                    <td class="text-center text-danger" onclick="categorias.excluir(${categoria.id}, '${categoria.nome}')"><i class="fas fa-trash-alt"></i></td>
                 </tr>`;
             });
             tabela.innerHTML = valores;
             console.log(categorias);
         })
         .catch(e => {
-            console.log('deu ruim', e);
+            ohSnap(e, {color: 'red'});
         })
     },
     cadastrarCategoria: () => {
@@ -33,21 +33,25 @@ categorias = {
             nome: form['nome'].value,
             acao: "add"
         }
-        console.log(cat);
-
-        HTTPClient.post('/Categoria', cat)
-        .then(resp => {
-            return resp.text();
-        })
-        .then(resp => {
-            form2.classList.toggle("d-none");
-            form2.reset();
-            categorias.listaCategorias();
-            alert(resp);
-        })
-        .catch(e => {
-            alert('Erro: ', e);
-        })
+        if(Validations.isValid())
+        {
+            HTTPClient.post('/Categoria', cat)
+            .then(resp => {
+                return resp.text();
+            })
+            .then(resp => {
+                form2.classList.toggle("d-none");
+                form2.reset();
+                categorias.listaCategorias();
+                ohSnap(resp, {color: 'green'});
+            })
+            .catch(e => {
+                ohSnap(e, {color: 'red'});
+                console.log(e);
+            })
+        }
+        else
+            ohSnap('Corrija os campos inválidos', {color: 'red'});
     },
     alterarCategoria: () => {
         const form = document.getElementById("form-categoria").elements;
@@ -58,21 +62,27 @@ categorias = {
             acao: "alterar"
         }
         console.log(cat);
+        if(Validations.isValid())
+        {
+            HTTPClient.post('/Categoria', cat)
+            .then(categorias => {
+                console.log(categorias)
+                return categorias.text();
+            })
+            .then(resp => {
+                form2.classList.toggle("d-none");
+                form2.reset();
+                categorias.listaCategorias();
+                ohSnap(resp, {color: 'green'});
+            })
+            .catch(e => {
+                ohSnap(e, {color: 'red'});
+                console.log(e);
+            })
+        }
+        else
+            ohSnap('Corrija os campos inválidos', {color: 'red'});
 
-        HTTPClient.post('/Categoria', cat)
-        .then(categorias => {
-            console.log(categorias)
-            return categorias.text();
-        })
-        .then(resp => {
-            form2.classList.toggle("d-none");
-            form2.reset();
-            categorias.listaCategorias();
-            alert(resp);
-        })
-        .catch(e => {
-            alert('Erro: ', e);
-        })
     },
     excluir: (id, nome) => {
         const cat = {
@@ -89,16 +99,18 @@ categorias = {
             })
             .then(resp => {
                 categorias.listaCategorias();
-                alert(resp);
+                ohSnap('Categoria excluída com sucesso', {color: 'green'});
             })
             .catch(e => {
-                alert('Erro: ', e);
+                ohSnap('Erro ao excluir a categoria', {color: 'red'});
+                console.log(e);
             })
         }
     },
     mostraForm: (acao, id=0) => {
         const form = document.getElementById("form-categoria");
         form.classList.toggle("d-none");
+        Validations.eventValidations(form.elements);
         if(acao == 'cadastrar')
         {
             document.getElementById("bt-cadastrar").classList.remove("d-none");
@@ -107,7 +119,7 @@ categorias = {
         else
         {
             document.getElementById("id-categoria").value = id;
-            HTTPClient.get(`/Categoria?acao=busca&id=${id}`)
+            HTTPClient.get(`/Categoria?acao=buscar&id=${id}`)
             .then(resp => {
                 return resp.json();
             })

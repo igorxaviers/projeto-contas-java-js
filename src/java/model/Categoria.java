@@ -56,6 +56,7 @@ public class Categoria {
         CategoriaDAO cDAO = new CategoriaDAO();
         return cDAO.getCategoria(this.id, con);
     }
+    
     public Categoria getCategoriaPorNome(Conexao con) {
         CategoriaDAO cDAO = new CategoriaDAO();
         return cDAO.getCategoriaPorNome(this.nome, con);

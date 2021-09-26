@@ -9,7 +9,13 @@ public class Usuario {
     private String nome, login, senha;
     private boolean admin, ativo;
 
-    public Usuario(){}
+    public Usuario(){
+        this.nome = "";
+        this.login = "";
+        this.senha = "";
+        this.admin = false;
+        this.ativo = false;
+    }
 
     public Usuario(String login, String senha) {
         this.login = login;

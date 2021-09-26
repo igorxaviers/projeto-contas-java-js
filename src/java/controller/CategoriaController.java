@@ -32,7 +32,7 @@ public class CategoriaController extends HttpServlet {
         String acao = request.getParameter("acao"); 
         if(acao != null) 
         {
-            if(acao.equals("busca"))
+            if(acao.equals("buscar"))
             {
                 int id = Integer.parseInt(request.getParameter("id"));
                 Categoria c = new Categoria();
@@ -42,8 +42,6 @@ public class CategoriaController extends HttpServlet {
         }
         else
         {
-            response.getWriter().print("aaaaaaaa");
-
             ArrayList<Categoria> cList = new ArrayList<>();
             cList = new Categoria().getCategorias("", Banco.getConexao());
             response.getWriter().print(new Gson().toJson(cList));
@@ -66,8 +64,7 @@ public class CategoriaController extends HttpServlet {
                 break;
                 
                 case "alterar":
-                    c = new Categoria(OBJ.getString("nome"));
-                    c.setId(OBJ.getInt("id"));
+                    c = new Categoria(OBJ.getInt("id"), OBJ.getString("nome"));
                     if(c.alterar(Banco.getConexao()))
                         response.getWriter().print("Categoria alterada com sucesso");
                     else
@@ -78,7 +75,7 @@ public class CategoriaController extends HttpServlet {
                     c = new Categoria();
                     c.setId(OBJ.getInt("id"));
                     if(c.excluir(Banco.getConexao()))
-                        response.getWriter().print("Categoria excluÃ­da com sucesso");
+                        response.getWriter().print("Categoria excluída com sucesso");
                     else
                         response.getWriter().print("Houve um erro ao excluir a categoria");
                 break;

@@ -17,8 +17,8 @@ usuarios = {
                     <td>${usuario.login}</td>
                     <td>${usuario.admin}</td>
                     <td>${usuario.ativo}</td>
-                    <td class="text-center"><i class="fas fa-edit" onclick="usuarios.mostraForm('alterar',${usuario.id})"></i></td>
-                    <td class="text-center"><i class="fas fa-trash-alt" onclick="usuarios.excluir(${usuario.id}, '${usuario.nome}')"></i></td>
+                    <td class="text-center text-warning"><i class="fas fa-edit" onclick="usuarios.mostraForm('alterar',${usuario.id})"></i></td>
+                    <td class="text-center text-danger"><i class="fas fa-trash-alt" onclick="usuarios.excluir(${usuario.id}, '${usuario.nome}')"></i></td>
                 </tr>`;
             });
             tabela.innerHTML = valores;
@@ -40,20 +40,25 @@ usuarios = {
             acao: "add"
         }
         console.log(usu);
-
-        HTTPClient.post('/Usuario', usu)
-        .then(resp => {
-            return resp.text();
-        })
-        .then(resp => {
-            form2.classList.toggle("d-none");
-            form2.reset();
-            usuarios.listaUsuarios();
-            alert(resp);
-        })
-        .catch(e => {
-            alert('Erro: ', e);
-        })
+        if(Validations.isValid())
+        {
+            HTTPClient.post('/Usuario', usu)
+            .then(resp => {
+                return resp.text();
+            })
+            .then(resp => {
+                form2.classList.toggle("d-none");
+                form2.reset();
+                usuarios.listaUsuarios();
+                ohSnap(resp, {color: 'green'});
+            })
+            .catch(e => {
+                ohSnap(e, {color: 'red'});
+                console.log(e);
+            })
+        }
+        else
+            ohSnap('Corrija os campos inválidos', {color: 'red'});
     },
     alterarUsuario: () => {
         const form = document.getElementById("form-usuario").elements;
@@ -69,20 +74,26 @@ usuarios = {
         }
         console.log(usu);
 
-        HTTPClient.post('/Usuario', usu)
-        .then(usuarios => {
-            console.log(usuarios)
-            return usuarios.text();
-        })
-        .then(resp => {
-            form2.classList.toggle("d-none");
-            form2.reset();
-            usuarios.listaUsuarios();
-            alert(resp);
-        })
-        .catch(e => {
-            alert('Erro: ', e);
-        })
+        if(Validations.isValid())
+        {
+            HTTPClient.post('/Usuario', usu)
+            .then(usuarios => {
+                console.log(usuarios)
+                return usuarios.text();
+            })
+            .then(resp => {
+                form2.classList.toggle("d-none");
+                form2.reset();
+                usuarios.listaUsuarios();
+                ohSnap(resp, {color: 'green'});
+            })
+            .catch(e => {
+                ohSnap(e, {color: 'red'});
+                console.log(e);
+            })
+        }
+        else
+            ohSnap('Corrija os campos inválidos', {color: 'red'});
     },
     excluir: (id, nome) => {
         const usu = {
@@ -99,16 +110,18 @@ usuarios = {
             })
             .then(resp => {
                 usuarios.listaUsuarios();
-                alert(resp);
+                ohSnap(resp, {color: 'green'});
             })
             .catch(e => {
-                alert('Erro: ', e);
+                ohSnap(e, {color: 'red'});
+                console.log(e);
             })
         }
     },
     mostraForm: (acao, id=0) => {
         const form = document.getElementById("form-usuario");
         form.classList.toggle("d-none");
+        Validations.eventValidations(form.elements);
         if(acao == 'cadastrar')
         {
             document.getElementById("bt-cadastrar").classList.remove("d-none");
@@ -129,7 +142,8 @@ usuarios = {
                 form['ativo'].value = usuario.ativo;
             })
             .catch(e => {
-                alert('Erro: ', e);
+                ohSnap(e, {color: 'red'});
+                console.log(e);
             });
             document.getElementById("bt-alterar").classList.remove("d-none");
             document.getElementById("bt-cadastrar").classList.add("d-none");

@@ -1,8 +1,14 @@
 <%@page import="model.Usuario"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-
+<%@page language="java" session="true" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <% 
-    Usuario u = (Usuario) session.getAttribute("usuario"); 
+   Usuario u = new Usuario();
+    if(request.getSession(false) == null) {
+        response.sendRedirect("/login.jsp");
+    }
+    else
+    {
+        u = (Usuario) session.getAttribute("usuario"); 
+    }
 %>
 
 
@@ -19,11 +25,14 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
     <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link href="../css/sb-admin-2.css" rel="stylesheet">
-<script src="../js/HTTPClient.js"></script>
+    <script src="../js/HTTPClient.js"></script>
+    <script src="../js/Validate.js"></script>
+    <script src="../js/ohsnap.js"></script>
 
 </head>
 
 <body id="page-top">
+    <div id="ohsnap"></div>
     <div id="wrapper">
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
@@ -82,20 +91,20 @@
                     <i class="fas fa-fw fa-table"></i>
                     <span>Itens</span></a>
             </li>
-            <hr class="sidebar-divider">
-            <div class="sidebar-heading">
-                Adm
-            </div>
-            <li class="nav-item">
-                <a class="nav-link" href="tables.html">
-                    <i class="fas fa-fw fa-table"></i>
-                    <span>Usuários</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="tables.html">
-                    <i class="fas fa-fw fa-table"></i>
-                    <span>tables</span></a>
-            </li>
+            <!-- <% if(u.isAdmin()) { %> -->
+
+                <hr class="sidebar-divider">
+                <div class="sidebar-heading">
+                    Administrador
+                </div>
+                <li class="nav-item">
+                    <a class="nav-link" href="/usuarios">
+                        <i class="fas fa-fw fa-table"></i>
+                        <span>Usuários</span></a>
+                </li>
+
+            <!-- <% } %> -->
+
         </ul>
 
         <div id="content-wrapper" class="d-flex flex-column">
@@ -109,7 +118,7 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Bem vindo <%= u.getNome() %></span>
+                                <!-- <span class="mr-2 d-none d-lg-inline text-gray-600 small">Bem vindo <%= u.getNome() %></span> -->
                                 <img class="img-profile rounded-circle"
                                     src="../img/undraw_profile.svg">
                             </a>

@@ -16,7 +16,7 @@ public class CategoriaDAO {
         Categoria categoria = new Categoria();
         categoria = getCategoriaPorNome(c.getNome(), con);
         if (categoria.getNome() == null){
-            sql = "insert into categorias (cat_nome) values ('"+c.getNome()+")";
+            sql = "insert into categorias (cat_nome) values ('"+c.getNome()+"')";
             return con.manipular(sql);
         }
         return false;
@@ -24,8 +24,14 @@ public class CategoriaDAO {
 
     public boolean alterar (Categoria c, Conexao con)
     {   
-        String sql = "update categorias set cat_nome='"+c.getNome()+" where cat_id="+c.getId();
-        return con.manipular(sql);                 
+        String sql;
+        Categoria categoria = new Categoria();
+        categoria = getCategoriaPorNome(c.getNome(), con);
+        if (categoria.getNome() == null || c.getId() == categoria.getId()){
+            sql = "update categorias set cat_nome='"+c.getNome()+"' where cat_id="+c.getId();
+            return con.manipular(sql);                 
+        }
+        return false;
     }
 
     public boolean excluir(int id, Conexao con)
@@ -39,12 +45,11 @@ public class CategoriaDAO {
         ResultSet rs = con.consultar(sql);
         try
         {
-          if (rs.next())
-          {
-              c.setId(id);
-              c.setNome(rs.getString("cat_nome"));
-          }
-
+            if (rs.next())
+            {
+                c.setId(id);
+                c.setNome(rs.getString("cat_nome"));
+            }
         }
         catch(Exception e){System.out.println(e);}
         return c;
