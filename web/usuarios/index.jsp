@@ -1,8 +1,10 @@
+<%@page import="model.Usuario"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <% 
-    if(request.getSession(false) == null) {
-        response.sendRedirect("/login.jsp");
-    }
+    Usuario u = (Usuario) session.getAttribute("usuario");
+    if(u == null)
+        response.sendRedirect("/");
+    else {
 %>
 <jsp:include page="../topo.jsp"/>
 <div class="container-fluid">
@@ -79,3 +81,4 @@
 </div>
 <jsp:include page="../footer.html"/>
 <script src="../js/usuario/usuarios.js"></script>
+<% } %>

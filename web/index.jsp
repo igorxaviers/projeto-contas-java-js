@@ -1,9 +1,9 @@
+<%@page import="model.Usuario"%>
 <%@page contentType="text/html" import="java.util.*, java.text.*, java.lang.String" pageEncoding="ISO-8859-1"%>
 <% 
-    session = request.getSession(false);
-    if (session.getAttribute("usuario") != null) {
+    Usuario u = (Usuario) session.getAttribute("usuario");
+    if(u != null)
         response.sendRedirect("/usuarios");
-    }
 %>
 
 <!DOCTYPE html>

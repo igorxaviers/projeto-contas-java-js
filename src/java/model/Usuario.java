@@ -4,7 +4,8 @@ import bd.dao.UsuarioDAO;
 import bd.util.Conexao;
 import java.util.ArrayList;
 
-public class Usuario {
+public class Usuario implements Observer
+{
     private int id;
     private String nome, login, senha;
     private boolean admin, ativo;
@@ -38,6 +39,18 @@ public class Usuario {
         this.admin = admin;
         this.ativo = ativo;
     }
+
+    /* ============== FUNÇÃO Observer ============== */
+    @Override
+    public void update(Object novaConta) 
+    {
+        Conta conta = (Conta) novaConta; // Recebe o objeto de conta
+        if(conta.getTipo() == 0) // Identifica que há uma nova conta a pagar
+        {
+            //Fazer algo para servir de notificação
+        }
+    }
+    
 
 
     public int getId() {
@@ -87,6 +100,9 @@ public class Usuario {
     public void setAtivo(boolean ativo) {
         this.ativo = ativo;
     }
+
+
+
 
     /* ============== OPERAÇÕES BD ============== */
 
@@ -145,6 +161,21 @@ public class Usuario {
             ", ativo='" + isAtivo() + "'" +
             "}";
     }
+
+    // public String notificar(String acao)
+    // {
+    //     String nomes ="Foram avisados: \n";
+    //     for(int i=0; i<admins.size();i++)
+    //     {
+    //         nomes+="Nome: "+ admins.get(i).getNome()+"\n";
+    //     }
+    //     return nomes;
+    // }
+
+    // public void init()
+    // {
+        // administradores = new Usuario().getUsuarios("where user_admin = true ", Banco.getConexao());
+    // }
 
  
     

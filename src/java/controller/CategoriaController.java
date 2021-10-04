@@ -25,7 +25,8 @@ import model.Usuario;
 
 @WebServlet(name = "CategoriaController", urlPatterns = {"/Categoria"})
 public class CategoriaController extends HttpServlet {
-
+    
+    
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("application/json; charset=utf-8");

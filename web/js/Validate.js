@@ -1,9 +1,10 @@
 ﻿var valid = false;
+var all;
 Validations = {
+
     eventValidations: (elements) => {
-        console.log('asd');
+        all = elements;
         for(let el of elements){
-            console.log(el);
             if(el.required)
             {
                 el.addEventListener('keyup', () => {
@@ -21,8 +22,9 @@ Validations = {
             }
         }
     },
+
     validate: (el) => {
-        if(el.value.length <= 1 || el.value < 0)
+        if(el.value.length <= 1 || el.value < 0 || el.value == '')
         {
             el.classList.add('is-invalid');
             valid = false;
@@ -33,9 +35,20 @@ Validations = {
             el.classList.add('is-valid');
             valid = true;
         }
-        console.log(valid);
     },
+
+    validadeAll: () => {
+        let valido = true;
+        for(let el of all)
+            if(el.required && el.value == '')
+            {
+                console.log(el);
+                valido = false;
+            }
+        return valido;
+    },
+
     isValid: () => {
-        return valid;
+        return valid && Validations.validadeAll();
     }
 }

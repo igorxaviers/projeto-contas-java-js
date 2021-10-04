@@ -15,7 +15,7 @@ public class UsuarioDAO {
         String sql;
         Usuario usuario = new Usuario();
         usuario = getUsuarioPorLogin(u.getLogin(), con);
-        if (usuario.getLogin() == null){
+        if (usuario == null){
             sql = "insert into usuarios (usu_nome,usu_login,usu_senha,usu_admin,usu_ativo) values ('"+u.getNome()+"','"+u.getLogin()+"','"+u.getSenha()+"',"+u.isAdmin()+","+u.isAtivo()+")";
             return con.manipular(sql);
         }

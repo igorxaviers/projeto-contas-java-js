@@ -111,5 +111,10 @@ var HTTPClient = {
         let p = fetch(baseURL + action, config);
         return p;
     },
+
+    getURL: (URL) => {
+        let p = fetch(URL);
+        return p;
+    }
  
 }
