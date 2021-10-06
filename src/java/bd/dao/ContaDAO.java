@@ -23,7 +23,7 @@ public class ContaDAO
     
     public boolean alterar (Conta c, Conexao con)
     {   
-        String sql = "update contas set cont_status='"+c.getStatus().getNome()+"' where cont_id="+c.getId();
+        String sql = "update contas set cont_status='"+c.getStatus().getNome()+"', cont_valor ="+c.getValor()+",cont_data='"+c.getData()+"',cont_data_vencimento='"+c.getData_vencimento()+"',cont_descricao='"+c.getDescricao()+"' where cont_id="+c.getId();
         return con.manipular(sql);                 
     }
 

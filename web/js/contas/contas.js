@@ -68,33 +68,35 @@ contas = {
     alterarConta: () => {
         const form = document.getElementById("form-conta").elements;
         const form2 = document.getElementById("form-conta");
-        const cat = {
-            id: form['id'].value,
-            nome: form['nome'].value,
+        const conta = {
+            cont_id: form['id-conta'].value,
+            cont_data: form['data'].value,
+            cont_data_vencimento: form['data_vencimento'].value,
+            cont_desc: form['descricao'].value,
+            cont_valor: form['valor'].value,
+            cont_tipo: form['tipo_conta'].value,
+            cont_status: form['status'].value,
             acao: "alterar"
-        }
-        console.log(cat);
-        if(Validations.isValid())
-        {
-            HTTPClient.post('/Contas', cat)
-            .then(contas => {
-                console.log(contas)
-                return contas.text();
-            })
-            .then(resp => {
-                form2.classList.toggle("d-none");
-                form2.reset();
-                contas.listaContas();
+        };
+        console.log(form['valor'].value);
+        HTTPClient.post('/Contas', conta)
+        .then(contas => {
+            return contas.text();
+        })
+        .then(resp => {
+            form2.classList.toggle("d-none");
+            form2.reset();
+            contas.listaContas();
+            if(resp.includes('bloqueada'))
+                ohSnap(resp, {color: 'red'});
+            else
                 ohSnap(resp, {color: 'green'});
-            })
-            .catch(e => {
-                ohSnap(e, {color: 'red'});
-                console.log(e);
-            })
-        }
-        else
-            ohSnap('Corrija os campos inválidos', {color: 'red'});
-
+        })
+        .catch(e => {
+            ohSnap(e, {color: 'red'});
+            console.log(e);
+        });
+        
     },
     excluir: (id) => {
         const conta = {
@@ -106,14 +108,14 @@ contas = {
         {
             HTTPClient.post('/Contas', conta)
             .then(contas => {
-                console.log(contas)
                 return contas.text();
             })
             .then(resp => {
                 contas.listaContas();
-                if(resp.contains('erro'))
-                    ohSnap('resp', {color: 'red'});
-                ohSnap( resp, {color: 'green'});
+                if(resp.includes('erro'))
+                    ohSnap(resp, {color: 'red'});
+                else
+                    ohSnap( resp, {color: 'green'});
             })
             .catch(e => {
                 ohSnap('Erro ao excluir a conta', {color: 'red'});
@@ -127,11 +129,13 @@ contas = {
         if(acao == 'cadastrar')
         {
             form.classList.toggle("d-none");
+            document.getElementById("status-conta").classList.add("d-none");
             document.getElementById("bt-cadastrar").classList.remove("d-none");
             document.getElementById("bt-alterar").classList.add("d-none");
         }
         else
         {
+            document.getElementById("status-conta").classList.remove("d-none");
             document.getElementById("id-conta").value = id;
             HTTPClient.get(`/Contas?acao=buscar&id=${id}`)
             .then(resp => {
@@ -139,11 +143,13 @@ contas = {
             })
             .then(conta => {
                 form.classList.toggle("d-none");
+                form['tipo_conta'].disabled = true;
                 form['data'].value = conta.data;
                 form['data_vencimento'].value = conta.data_vencimento;
                 form['descricao'].value = conta.descricao;
                 form['valor'].value = conta.valor;
-                form['tipo_conta'].value = tipo_conta;
+                form['tipo_conta'].value = conta.tipo;
+                form['status'].value = conta.status.nome;
             })
             .catch(e => {
                 ohSnap('Erro: ', e);
@@ -161,4 +167,8 @@ contas = {
 }
 
 contas.init();
+
+
+
+
 

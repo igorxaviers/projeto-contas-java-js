@@ -214,4 +214,14 @@ public class Conta implements Sujeito
             return new Pendente();
         }     
     }
+
+    public boolean valida()
+    {
+        if(descricao.length() > 5 && usuario!=null)
+            if(valor >= 0)
+                if(tipo == 0 || tipo == 1)
+                    if(data_vencimento.compareTo(data) > 0)
+                        return true;
+        return false;
+    }
 }

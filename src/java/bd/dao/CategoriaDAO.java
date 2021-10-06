@@ -76,12 +76,13 @@ public class CategoriaDAO {
 
     public Categoria getCategoriaPorNome(String nome, Conexao con)
     {   Categoria c = new Categoria();
-        String sql = "select cat_nome from categorias where upper(cat_nome) = '"+nome.toUpperCase()+"'";
+        String sql="select * from categorias where cat_nome = '"+nome+"'";
         ResultSet rs = con.consultar(sql);
         try
         {
           if (rs.next())
           {
+            c.setId(rs.getInt("cat_id"));
             c.setNome(rs.getString("cat_nome"));
           }
         }

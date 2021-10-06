@@ -12,4 +12,10 @@ public class ReceberController extends TemplateConta{
     {
         return c.alterar(Banco.getConexao());
     }
+
+    @Override
+    public boolean excluir(Conta c) 
+    {
+        return c.excluir(Banco.getConexao());
+    }
 }

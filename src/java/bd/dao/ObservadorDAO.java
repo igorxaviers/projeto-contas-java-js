@@ -26,6 +26,11 @@ public class ObservadorDAO {
     {
         return con.manipular("delete from observadores where id_usu=" + usuario + " and id_conta = "+ conta);
     }
+    
+    public boolean excluirCascata(int conta, Conexao con)
+    {
+        return con.manipular("delete from observadores where id_conta = "+ conta);
+    }
         
     public boolean getObservador(int usuario, int conta, Conexao con)
     {   

@@ -4,7 +4,6 @@ package controller;
 import bd.util.Banco;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -79,25 +78,37 @@ public class ContaController extends HttpServlet {
                         if(cPagar.adicionarConta(c))
                         {
                             c.addTodosAdmin(Banco.getConexao());
-                            c.notificar();
-                            response.getWriter().print("Conta salva com sucesso, os administradores foram notificados!");
-                            //SIMULAR AS NOTIF
+                            c.notificar();//MENSAGENS ENVIADAS AOS ADMINS
+                            response.getWriter().print("Conta salva com sucesso, os admins foram notificados");
+                            
                         }else
                             response.getWriter().print("Houve um erro ao salvar a conta");
                     break;
 
                     case "alterar":
-                        
+                        Conta aux = new Conta();
+                        c = new Conta(OBJ.getInt("cont_id"),
+                            OBJ.getInt("cont_tipo"),
+                            OBJ.getString("cont_desc"),
+                            formato.parse(OBJ.getString("cont_data")),
+                            formato.parse(OBJ.getString("cont_data_vencimento")),
+                            OBJ.getDouble("cont_valor"),
+                            u,
+                            aux.valida(OBJ.getString("cont_status"))
+                        );
+                        if(cPagar.alterar(c))
+                            response.getWriter().print("Conta alterada com sucesso!");
+                        else
+                            response.getWriter().print("Alteração bloqueada pois a conta está "+c.getStatus().getNome()+", favor contatar seu responsável!");
                     break;
-
                     case "excluir":
                         c = new Conta();
                         c.setId(OBJ.getInt("cont_id"));
                         c = c.getConta(Banco.getConexao());
-                        if(cPagar.excluir(c))
+                        if(cPagar.excluirConta(c))
                             response.getWriter().print("Conta excluída com sucesso");
                         else
-                           response.getWriter().print("Houve um erro ao excluir a conta");
+                           response.getWriter().print("Houve um erro ao excluir a conta pois a conta está "+ c.getStatus().getNome());
 
                     break;
                 }
@@ -122,14 +133,25 @@ public class ContaController extends HttpServlet {
                     break;
 
                     case "alterar":
-
+                        c = new Conta(OBJ.getInt("cont_id"),
+                            OBJ.getInt("cont_tipo"),
+                            OBJ.getString("cont_desc"),
+                            formato.parse(OBJ.getString("cont_data")),
+                            formato.parse(OBJ.getString("cont_data_vencimento")),
+                            OBJ.getDouble("cont_valor"),
+                            u                
+                        );
+                        if(cReceber.alterar(c))
+                            response.getWriter().print("Conta alterada com sucesso!");
+                        else
+                            response.getWriter().print("Houve um erro ao alterar a conta!");
                     break;
 
                     case "excluir":
                         c = new Conta();
                         c.setId(OBJ.getInt("cont_id"));
                         c = c.getConta(Banco.getConexao());
-                        if(cReceber.excluir(c))
+                        if(cReceber.excluirConta(c))
                             response.getWriter().print("Conta excluída com sucesso");
                         else
                            response.getWriter().print("Houve um erro ao excluir a conta");

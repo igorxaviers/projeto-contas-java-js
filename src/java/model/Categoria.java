@@ -76,5 +76,11 @@ public class Categoria {
             ", nome='" + getNome() + "'" +
             "}";
     }    
+
+    public boolean valida() {
+        if(!nome.isEmpty() && nome.length()>3)
+            return true;
+        return false;
+    }
     
 }

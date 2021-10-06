@@ -20,44 +20,54 @@
         </div>
         <div class="row mb-4">
             <div class="col-6">
-                <input type="hidden" value="" name="id" id="id-conta">
-                <input type="hidden" value="<%= u.getId() %>" name="id_usu" id="id-conta">
+                <input type="hidden" value="" name="id-conta" id="id-conta">
+                <input type="hidden" value="<%= u.getId() %>" name="id_usu" >
 
                 <div class="row mb-3">
-                    <div class="col-6">
+                    <div class="col-6" >
                         <label for="">Tipo da conta:</label>
-                        <select name="tipo_conta" class="form-control">
+                        <select name="tipo_conta" class="form-control" required>
                             <option value="0">Pagar</option>
                             <option value="1">Receber</option>
                         </select>
+                    </div>
+                    <div class="col-6" id="status-conta">
+                        <label for="">Status da conta:</label>
+                        <% if(u.isAdmin()){%>
+                        <select name="status" class="form-control">
+                            <option value="Aprovado">Aprovado</option>
+                            <option value="Reprovado">Reprovado</option>
+                            <option value="Pendente">Pendente</option>
+                        </select>
+                        <%}else{%>
+                        <input disabled name="status" value=""  class="form-control">
+                        <%}%>
                     </div>
                 </div>
                 <div class="row mb-3">
                     <div class="col-6">
                         <label for="">Data:</label>
-                        <input type="date" name="data">
+                        <input type="date" name="data" required>
                     </div>
                     <div class="col-6">
                         <label for="">Data vencimento:</label>
-                        <input type="date" name="data_vencimento">
+                        <input type="date" name="data_vencimento" required>
                     </div>
                 </div>
                 <div class="mb-3">
                     <label for="nome" class="form-label">Descrição:</label>
-                    <textarea type="text" class="form-control" name="descricao" placeholder="Descricao da conta" required minlength="1" maxlength="500" style="max-height: 250px; min-height: 150px;"></textarea>
+                    <textarea type="text" class="form-control" name="descricao" placeholder="Descricao da conta" required minlength="1" maxlength="500" style="max-height: 250px; min-height: 150px;" required></textarea>
                 </div>
                 <div class="mb-3 row">
                     <div class="col-6">
                         <label for="valor" class="form-label">Valor:</label>
-                        <input type="number" name="valor" class="form-control" placeholder="Valor da conta">
+                        <input type="number" name="valor" class="form-control" placeholder="Valor da conta" min="0" required>
                     </div>
                     <div class="col-6">
                         <label for="nome" class="form-label">Usuário responsável:</label>
                         <input type="text" name="usu_id_usuarios" value="<%= u.getNome() %>" class="form-control" disabled>
                     </div>
                 </div>
-
-
             </div>    
         </div>
         <button id="bt-alterar" onclick="contas.alterarConta()" type="button" class="btn btn-primary w-25">Alterar</button>

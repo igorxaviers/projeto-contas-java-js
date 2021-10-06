@@ -137,6 +137,20 @@ public class Fornecedor {
         FornecedorDAO fDAO = new FornecedorDAO();
         return fDAO.getFornecedores(filtro, con);
     }
+
+    public boolean valida() {
+        // String cnpj, razao, fantasia, endereco, bairro, email, inscricao_estadual, cep, cidade;
+        // Categoria categoria;
+    
+        if(cnpj.length() == 14 && !razao.isEmpty() && !fantasia.isEmpty() &&
+           !endereco.isEmpty() && !bairro.isEmpty() && !email.isEmpty() &&
+           !inscricao_estadual.isEmpty() && cep.length() == 8 && !cidade.isEmpty()
+        )
+            if(categoria != null)
+                return true;
+        return false;
+    }
+    
     
     
 }

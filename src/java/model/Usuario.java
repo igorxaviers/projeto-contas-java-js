@@ -1,6 +1,6 @@
 package model;
 
-import bd.dao.NotificarDAO;
+import bd.dao.NotificacaoDAO;
 import bd.dao.UsuarioDAO;
 import bd.util.Banco;
 import bd.util.Conexao;
@@ -18,6 +18,10 @@ public class Usuario implements Observer
         this.senha = "";
         this.admin = false;
         this.ativo = false;
+    }
+    
+    public Usuario(int id){
+        this.id = id;
     }
 
     public Usuario(String login, String senha) {
@@ -48,7 +52,7 @@ public class Usuario implements Observer
     {
         Conta conta = (Conta) novaConta; // Recebe o objeto de conta
         String mensagem = "O usuário "+conta.getUsuario().getNome()+" gravou uma conta de R$ "+conta.getValor()+", favor validar!";
-        new NotificarDAO().salvar(this.getId(),mensagem, Banco.getConexao());
+        new NotificacaoDAO().salvar(this.getId(), mensagem, Banco.getConexao());
     }
     
 
@@ -131,22 +135,26 @@ public class Usuario implements Observer
     }
 
     public boolean excluir(Conexao con) {
-        return new UsuarioDAO().excluir(this.id, con);
-    }
-    public Usuario getUsuario(Conexao con) {
-        return new UsuarioDAO().getUsuario(this.id, con);
-    }
-    public Usuario getUsuarioPorLogin(Conexao con) {
-        return new UsuarioDAO().getUsuarioPorLogin(this.login, con);
-    }
-    public ArrayList<Usuario> getUsuarios(String filtro, Conexao con) {
-        return new UsuarioDAO().getUsuarios(filtro, con);
-    }
-    public ArrayList<String> getNotificacoes(Conexao con) {
-        return new UsuarioDAO().getNotificacoes(id, con);
+        UsuarioDAO uDAO = new UsuarioDAO();
+        return uDAO.excluir(this.id, con);
     }
 
+    public Usuario getUsuario(Conexao con) {
+        UsuarioDAO uDAO = new UsuarioDAO();
+        return uDAO.getUsuario(this.id, con);
+    }
+    public Usuario getUsuarioPorEmail(Conexao con) {
+        UsuarioDAO uDAO = new UsuarioDAO();
+        return uDAO.getUsuarioPorLogin(this.login, con);
+    }
+    public ArrayList<Usuario> getUsuarios(String filtro, Conexao con) {
+        UsuarioDAO uDAO = new UsuarioDAO();
+        return uDAO.getUsuarios(filtro, con);
+    }
+
+
     
+
     @Override
     public String toString() {
         return "{" +
@@ -158,4 +166,14 @@ public class Usuario implements Observer
             ", ativo='" + isAtivo() + "'" +
             "}";
     }
+
+    public boolean valida()
+    {
+        if(!nome.isEmpty() && !login.isEmpty() && !senha.isEmpty())
+            if(admin == false || admin == true)
+                if(ativo == false || ativo == true)
+                    return true;
+        return false;
+    }
+    
 }

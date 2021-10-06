@@ -23,6 +23,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import model.Notificacao;
 
 import model.Usuario;
 
@@ -45,12 +46,18 @@ public class LoginController extends HttpServlet {
             {
                 HttpSession sessao = request.getSession(true);
                 sessao.setAttribute("usuario", usuario);
+
                 // String dados = "{\"url\": \"usuarios\", \"ok\": true, \"mensagem\": \"Login feito com sucesso\"}";
                 // JsonObject json = new JsonParser().parse(dados).getAsJsonObject();
+
                 // response.getWriter().print(json);
-                ArrayList<String> notificacoes = usuario.getNotificacoes(Banco.getConexao());
+                Notificacao notificacao = new Notificacao(usuario);
+                ArrayList<Notificacao> notificacoes = notificacao.getNotificacoes(Banco.getConexao());
                 sessao.setAttribute("notificacoes", notificacoes);
-                response.sendRedirect("/usuarios");
+                if(usuario.isAdmin())
+                    response.sendRedirect("/usuarios");
+                else
+                    response.sendRedirect("/contas");
             }
             else
             {
