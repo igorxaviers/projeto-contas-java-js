@@ -2,6 +2,7 @@
 package model;
 
 import bd.dao.ContaDAO;
+import bd.dao.ObservadorDAO;
 import bd.util.Banco;
 import bd.util.Conexao;
 import java.util.ArrayList;
@@ -14,13 +15,14 @@ public class Conta implements Sujeito
     private Date data, data_vencimento;
     private double valor;
     private Usuario usuario;
-    private boolean aprovada;
+    private State status;
+
     //Lista de Observadores
     private ArrayList<Observer> observadores;
     
     public Conta(){}
     
-    public Conta(int id,int tipo,String descricao, Date data, Date data_vencimento, double valor, Usuario usuario, boolean aprovada) 
+    public Conta(int id,int tipo,String descricao, Date data, Date data_vencimento, double valor, Usuario usuario) 
     {
         this.descricao = descricao;
         this.tipo = tipo;
@@ -29,10 +31,32 @@ public class Conta implements Sujeito
         this.data_vencimento = data_vencimento;
         this.valor = valor;
         this.usuario = usuario;
-        this.aprovada = aprovada;
-        //CRIAR A LISTA DE OBSERVADORES AQUI NO CONSTRUTOR
+        this.status = new Pendente();
+    }
+    public Conta(int tipo,String descricao, Date data, Date data_vencimento, double valor, Usuario usuario) 
+    {
+        this.descricao = descricao;
+        this.tipo = tipo;
+        this.data = data;
+        this.data_vencimento = data_vencimento;
+        this.valor = valor;
+        this.usuario = usuario;
+        this.status = new Pendente();
     }
 
+    public Conta(int id, int tipo, String descricao, Date data, Date data_vencimento, double valor, Usuario usuario, State status)
+    {
+        this.descricao = descricao;
+        this.id = id;
+        this.tipo = tipo;
+        this.data = data;
+        this.data_vencimento = data_vencimento;
+        this.valor = valor;
+        this.usuario = usuario;
+        this.status = status;
+    }
+
+    
     /* ============== FUNÇÕES SUJEITO ============== */
     @Override
     public void notificar()
@@ -41,34 +65,60 @@ public class Conta implements Sujeito
             observer.update(this); // A "atualização" passa o prórpio objeto, as classes concretas decidem o que fazer com ele
         }
     }
-    public void inscrever(Observer o)
+    public void inscrever(Observer o, int id_usu, Conexao con)
     {
         if(!this.observadores.contains(o))
+        {
             this.observadores.add(o);
+            new ObservadorDAO().adicionar(id_usu, id, con);
+        }
+            
     }
-    public void desinscrever(Observer o)
+    
+    public void aprovarConta()
+    {
+        status = status.aprovar();
+    }
+    
+    public void reprovarConta()
+    {
+        status = status.reprovar();
+    }
+    public void desinscrever(Observer o, int id_usu, Conexao con)
     {
         int indexObservador = this.observadores.indexOf(o);
         if(indexObservador != -1)
+        {
             this.observadores.remove(o);
+            new ObservadorDAO().excluir(id_usu, id, con);
+        }       
     }
 
+    public void recuperarObservadores(Conexao con)
+    {
+        ObservadorDAO dao= new ObservadorDAO();
+        observadores = dao.getObservadores(id, con);
+    }
+    
+    public void addTodosAdmin(Conexao con)
+    {
+        ObservadorDAO dao = new ObservadorDAO();
+        observadores = dao.addTodosAdmin(id, con);
+    }
+    
     /* ============== OPERAÇÕES BD ============== */
     public boolean salvar(Conexao con)
     {
+        boolean flag = false;
         ContaDAO cDAO = new ContaDAO();
-        if(cDAO.salvar(this, con)) // Se salvar corretamente a conta
+        if(cDAO.salvar(this, con))
         {
-            this.notificar(); // Notifica os observadores da nova conta cadastrada
-            return true; // Savlou corretamente
+            flag = true;
+            this.setId(con.getMaxPK("contas", "cont_id"));
         }
-        return false; // Não salvou corretamente
+        return flag;
     }
 
-    // public ArrayList<Usuario> getObservadores() {
-    //     return observadores;
-    // }
-    
     public boolean alterar (Conexao con)
     {
         return new ContaDAO().alterar(this, con);
@@ -146,11 +196,22 @@ public class Conta implements Sujeito
         this.usuario = usuario;
     }
 
-    public boolean isAprovada() {
-        return aprovada;
+    public State getStatus() {
+        return status;
     }
 
-    public void setAprovada(boolean aprovada) {
-        this.aprovada = aprovada;
+    public void setStatus(State state) {
+        this.status = state;
+    }
+    
+    public State valida(String aux){
+        if(aux.equalsIgnoreCase("Aprovado"))
+            return new Aprovado();
+        else
+        {
+            if(aux.equalsIgnoreCase("Reprovado"))
+                return new Reprovado();
+            return new Pendente();
+        }     
     }
 }

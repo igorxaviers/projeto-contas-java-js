@@ -16,14 +16,14 @@ public class ContaDAO
     
     public boolean salvar (Conta c, Conexao con)
     {
-        String sql="insert into contas (cont_tipo,cont_data,cont_data_vencimento,cont_descricao,cont_aprovado,cont_valor,usu_id_usuarios) values "
-                + "("+c.getTipo()+",'"+c.getData()+"','"+c.getData_vencimento()+"','"+c.getDescricao()+"',"+c.isAprovada()+","+c.getValor()+","+c.getUsuario().getId();
+        String sql="insert into contas (cont_tipo,cont_data,cont_data_vencimento,cont_descricao,cont_status,cont_valor,usu_id_usuarios) values "
+                + "("+c.getTipo()+",'"+c.getData()+"','"+c.getData_vencimento()+"','"+c.getDescricao()+"','"+c.getStatus().getNome()+"',"+c.getValor()+","+c.getUsuario().getId()+")";
         return con.manipular(sql);
     }
     
     public boolean alterar (Conta c, Conexao con)
     {   
-        String sql = "update contas set cont_aprovado="+c.isAprovada()+" where cont_id="+c.getId();
+        String sql = "update contas set cont_status='"+c.getStatus().getNome()+"' where cont_id="+c.getId();
         return con.manipular(sql);                 
     }
 
@@ -35,6 +35,7 @@ public class ContaDAO
     public Conta getConta(int id, Conexao con)
     {   Conta c = new Conta();
         String sql="select * from contas where cont_id = " + id;
+        String aux;
         ResultSet rs = con.consultar(sql);
         try
         {
@@ -47,8 +48,8 @@ public class ContaDAO
                 c.setTipo(rs.getInt("cont_tipo"));
                 c.setUsuario(new UsuarioDAO().getUsuario(rs.getInt("usu_id_usuarios"), con));
                 c.setValor(rs.getDouble("cont_valor"));
-                c.setAprovada(rs.getBoolean("cont_aprovado"));
-                        
+                aux = rs.getString("cont_status");
+                c.setStatus(c.valida(aux));
             }
         }
         catch(Exception e){System.out.println(e);}
@@ -57,15 +58,19 @@ public class ContaDAO
 
     public ArrayList<Conta> getContas(String filtro, Conexao con)
     {   
-        ArrayList <Conta> lista = new ArrayList();
+        Conta c = new Conta();
+        ArrayList <Conta> lista = new ArrayList<>();
+        String aux;
         String sql = "select * from contas";
         if (!filtro.isEmpty())
             sql+=" where " + filtro;
-        sql += " order by cat_id";
+        sql += " order by cont_id";
         ResultSet rs = con.consultar(sql);
         try
         {
             while(rs.next())
+            {
+                aux = rs.getString("cont_status");
                 lista.add(new Conta(
                     rs.getInt("cont_id"),
                     rs.getInt("cont_tipo"),
@@ -74,7 +79,9 @@ public class ContaDAO
                     rs.getDate("cont_data_vencimento"),
                     rs.getDouble("cont_valor"),
                     new UsuarioDAO().getUsuario(rs.getInt("usu_id_usuarios"),con),
-                    rs.getBoolean("cont_aprovada")));
+                    c.valida(aux)));
+            }
+                
         }
         catch(Exception e){System.out.println(e);}
         return lista;

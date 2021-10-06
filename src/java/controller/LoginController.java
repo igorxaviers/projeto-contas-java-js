@@ -45,11 +45,11 @@ public class LoginController extends HttpServlet {
             {
                 HttpSession sessao = request.getSession(true);
                 sessao.setAttribute("usuario", usuario);
-
                 // String dados = "{\"url\": \"usuarios\", \"ok\": true, \"mensagem\": \"Login feito com sucesso\"}";
                 // JsonObject json = new JsonParser().parse(dados).getAsJsonObject();
-
                 // response.getWriter().print(json);
+                ArrayList<String> notificacoes = usuario.getNotificacoes(Banco.getConexao());
+                sessao.setAttribute("notificacoes", notificacoes);
                 response.sendRedirect("/usuarios");
             }
             else

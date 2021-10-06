@@ -1,26 +1,25 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package controller;
 
+import bd.dao.ContaDAO;
 import bd.util.Banco;
 import java.util.ArrayList;
+import model.Pendente;
 import model.Conta;
 import model.Usuario;
 
-/**
- *
- * @author Matheus - Foregon
- */
 public class PagarController extends TemplateConta
 {
-
+    
     @Override
-    public String salvar(Conta c)
+    public boolean alterar(Conta c)
     {
-        return "";
+        if(c.getStatus() instanceof Pendente)
+            return c.alterar(Banco.getConexao());
+        return false;
     }
     
+    public void adicionarObservador(Conta c, Usuario u)
+    {
+        c.inscrever(u, u.getId(), Banco.getConexao());
+    }
 }

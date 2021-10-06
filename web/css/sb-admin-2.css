@@ -10292,7 +10292,8 @@ a:focus {
     right: 0;
   }
   .topbar .dropdown-list {
-    width: 20rem !important;
+    width: 400px !important;
+    top: 60px;
   }
   .topbar .dropdown-list .dropdown-item .text-truncate {
     max-width: 13.375rem;
@@ -11320,4 +11321,13 @@ body.sidebar-toggled footer.sticky-footer {
 .alert-orange {
   color:white;
   background-color: #E9573F;
+}
+
+input[type="date"]{
+  width: 100%;
+  border-radius: 6px;
+  border: 1px solid #c6c6c6;
+  padding: 5px 10px;
+  color: #686868;
+  outline: none;
 }

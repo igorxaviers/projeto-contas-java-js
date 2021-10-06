@@ -15,7 +15,7 @@ public class UsuarioDAO {
         String sql;
         Usuario usuario = new Usuario();
         usuario = getUsuarioPorLogin(u.getLogin(), con);
-        if (usuario == null){
+        if (usuario.getLogin() == null){
             sql = "insert into usuarios (usu_nome,usu_login,usu_senha,usu_admin,usu_ativo) values ('"+u.getNome()+"','"+u.getLogin()+"','"+u.getSenha()+"',"+u.isAdmin()+","+u.isAtivo()+")";
             return con.manipular(sql);
         }
@@ -80,7 +80,7 @@ public class UsuarioDAO {
     public Usuario getUsuarioPorLogin(String login, Conexao con)
     {   
         Usuario u = new Usuario();
-        String sql="select * from usuarios where usu_login = '"+login+"'";
+        String sql="select * from usuarios where upper(usu_login) = '"+login.toUpperCase()+"'";
         ResultSet rs = con.consultar(sql);
         try
         {
@@ -97,6 +97,19 @@ public class UsuarioDAO {
         }
         catch(Exception e){System.out.println(e);}
         return null;
+    }
+
+    public ArrayList<String> getNotificacoes(int id, Conexao con)
+    {
+        ArrayList<String> notificacoes = new ArrayList<>();
+        String sql = "select * from notificacoes where notif_usu =" + id;
+        ResultSet rs = con.consultar(sql);
+        try
+        {
+            while(rs.next())
+                notificacoes.add(rs.getString("notif_desc"));
+        }catch(Exception e){}
+        return notificacoes;
     }
 
     public Usuario validaLogin(String login, String senha, Conexao con)

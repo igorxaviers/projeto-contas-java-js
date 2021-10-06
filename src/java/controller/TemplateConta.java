@@ -1,28 +1,42 @@
 
 package controller;
 
+import bd.dao.ContaDAO;
 import bd.util.Banco;
 import model.Caixa;
 import model.Conta;
+import model.Reprovado;
 
 public abstract class TemplateConta 
-{
-    abstract String salvar(Conta c);//SALVAR DO PAGAR (AVISAR OS OBSEERVERS) - SALVAR DO RECEBER ()
+{    
+    public abstract boolean alterar(Conta c);
     
-    public final String adicionarConta(Conta c)
+    public final boolean adicionarConta(Conta c)
     {
         Caixa caixa = new Caixa();
         if(caixa.getSaldo()>0)
         {
-            return this.salvar(c);
+            return c.salvar(Banco.getConexao());
         }
         else
         {
            if(c.getTipo()==1)
-               return this.salvar(c);
+               return c.salvar(Banco.getConexao());
            else
-               return "";
+               return false;
         }
-    } 
+    }
+    
+    public final boolean alterarConta(Conta c)
+    {
+        return this.alterar(c);
+    }
+    
+    public final boolean excluir(Conta c)
+    {
+        if(c.getStatus() instanceof Reprovado)
+            return c.excluir(Banco.getConexao());
+        return false;
+    }
     
 }

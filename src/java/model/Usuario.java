@@ -1,6 +1,8 @@
 package model;
 
+import bd.dao.NotificarDAO;
 import bd.dao.UsuarioDAO;
+import bd.util.Banco;
 import bd.util.Conexao;
 import java.util.ArrayList;
 
@@ -45,10 +47,8 @@ public class Usuario implements Observer
     public void update(Object novaConta) 
     {
         Conta conta = (Conta) novaConta; // Recebe o objeto de conta
-        if(conta.getTipo() == 0) // Identifica que há uma nova conta a pagar
-        {
-            //Fazer algo para servir de notificação
-        }
+        String mensagem = "O usuário "+conta.getUsuario().getNome()+" gravou uma conta de R$ "+conta.getValor()+", favor validar!";
+        new NotificarDAO().salvar(this.getId(),mensagem, Banco.getConexao());
     }
     
 
@@ -131,25 +131,22 @@ public class Usuario implements Observer
     }
 
     public boolean excluir(Conexao con) {
-        UsuarioDAO uDAO = new UsuarioDAO();
-        return uDAO.excluir(this.id, con);
+        return new UsuarioDAO().excluir(this.id, con);
     }
-
     public Usuario getUsuario(Conexao con) {
-        UsuarioDAO uDAO = new UsuarioDAO();
-        return uDAO.getUsuario(this.id, con);
+        return new UsuarioDAO().getUsuario(this.id, con);
     }
-    public Usuario getUsuarioPorEmail(Conexao con) {
-        UsuarioDAO uDAO = new UsuarioDAO();
-        return uDAO.getUsuarioPorLogin(this.login, con);
+    public Usuario getUsuarioPorLogin(Conexao con) {
+        return new UsuarioDAO().getUsuarioPorLogin(this.login, con);
     }
     public ArrayList<Usuario> getUsuarios(String filtro, Conexao con) {
-        UsuarioDAO uDAO = new UsuarioDAO();
-        return uDAO.getUsuarios(filtro, con);
+        return new UsuarioDAO().getUsuarios(filtro, con);
+    }
+    public ArrayList<String> getNotificacoes(Conexao con) {
+        return new UsuarioDAO().getNotificacoes(id, con);
     }
 
     
-
     @Override
     public String toString() {
         return "{" +
@@ -161,22 +158,4 @@ public class Usuario implements Observer
             ", ativo='" + isAtivo() + "'" +
             "}";
     }
-
-    // public String notificar(String acao)
-    // {
-    //     String nomes ="Foram avisados: \n";
-    //     for(int i=0; i<admins.size();i++)
-    //     {
-    //         nomes+="Nome: "+ admins.get(i).getNome()+"\n";
-    //     }
-    //     return nomes;
-    // }
-
-    // public void init()
-    // {
-        // administradores = new Usuario().getUsuarios("where user_admin = true ", Banco.getConexao());
-    // }
-
- 
-    
 }

@@ -9,7 +9,7 @@ public class Caixa
 
     public Caixa() 
     {
-        
+        this.saldo = 1000;
     }
 
     public double getSaldo() {
