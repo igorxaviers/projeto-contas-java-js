@@ -23,17 +23,19 @@ import model.Fornecedor;
 @WebServlet(name = "FornecedorController", urlPatterns = {"/Fornecedor"})
 public class FornecedorController extends HttpServlet {
 
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("application/json; charset=utf-8");
-        
         String acao = request.getParameter("acao"); 
-        if(acao.equals("busca"))
+        if(acao != null)
         {
-            String cnpj = request.getParameter("cnpj");
-            Fornecedor f = new Fornecedor();
-            f.setCnpj(cnpj);
-            response.getWriter().print(new Gson().toJson(f.getFornecedor(Banco.getConexao())));
+            if(acao.equals("buscar"))
+            {
+                String cnpj = request.getParameter("cnpj");
+                Fornecedor f = new Fornecedor();
+                f.setCnpj(cnpj);
+                response.getWriter().print(new Gson().toJson(f.getFornecedor(Banco.getConexao())));
+            }
         }
         else
         {
@@ -43,12 +45,6 @@ public class FornecedorController extends HttpServlet {
         }
     }
 
-
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
-    }
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("application/json; charset=utf-8");
@@ -69,10 +65,13 @@ public class FornecedorController extends HttpServlet {
                         OBJ.getString("cep"), 
                         OBJ.getString("cidade"), 
                         new Categoria(OBJ.getInt("id_categoria")));
-                    if(f.salvar(Banco.getConexao()))
-                        response.getWriter().print("Fornecedor salvo com sucesso");
+                    if(f.valida())
+                        if(f.salvar(Banco.getConexao()))
+                            response.getWriter().print("Fornecedor salvo com sucesso");
+                        else
+                            response.getWriter().print("Houve um erro ao salvar o fornecedor");
                     else
-                        response.getWriter().print("Houve um erro ao salvar a categoria");
+                        response.getWriter().print("Erro: Corrija os campos");
                 break;
                 
                 case "alterar":
@@ -87,10 +86,13 @@ public class FornecedorController extends HttpServlet {
                         OBJ.getString("cep"), 
                         OBJ.getString("cidade"), 
                         new Categoria(OBJ.getInt("id_categoria")));
-                    if(f.alterar(Banco.getConexao()))
-                        response.getWriter().print("Fornecedor alterado com sucesso");
+                    if(f.valida())
+                        if(f.alterar(Banco.getConexao()))
+                            response.getWriter().print("Fornecedor alterado com sucesso");
+                        else
+                            response.getWriter().print("Houve um erro ao alterar o fornecedor");
                     else
-                        response.getWriter().print("Houve um erro ao alterar a categoria");
+                        response.getWriter().print("Erro: Corrija os campos");
                 break;
 
                 case "excluir":

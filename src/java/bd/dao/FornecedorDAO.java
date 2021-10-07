@@ -13,8 +13,8 @@ public class FornecedorDAO {
     {
         String sql;
         Fornecedor fornecedor = new Fornecedor();
-        fornecedor = getFornecedorPorRazao(f.getRazao(), con);
-        if (fornecedor.getRazao() == null){
+        fornecedor = getFornecedorPorCNPJ(f.getCnpj(), con);
+        if (fornecedor.getCnpj() == null){
             sql = "insert into fornecedores (forn_cnpj, forn_razao, forn_fantasia, forn_endereco, forn_bairro, forn_email, forn_inscricao_estadual, forn_cep, cat_id_categoria, forn_cidade) values ('"+f.getCnpj()+"','"+f.getRazao()+"','"+f.getFantasia()+"','"+f.getEndereco()+"','"+f.getBairro()+"','"+f.getEmail()+"','"+f.getInscricao_estadual()+"','"+f.getCep()+"',"+f.getCategoria().getId()+",'"+f.getCidade()+"')";
             return con.manipular(sql);
         }
@@ -84,25 +84,25 @@ public class FornecedorDAO {
         return lista;
     }
 
-    public Fornecedor getFornecedorPorRazao(String nome, Conexao con)
+    public Fornecedor getFornecedorPorCNPJ(String cnpj, Conexao con)
     {   Fornecedor f = new Fornecedor();
-        String sql="select * from fornecedores where forn_razao = '"+nome+"'";
+        String sql="select * from fornecedores where forn_cnpj = '"+cnpj+"'";
         ResultSet rs = con.consultar(sql);
         try
         {
-          if (rs.next())
-          {
-              f.setCnpj(rs.getString("forn_cnpj"));
-              f.setRazao(rs.getString("forn_razao"));
-              f.setFantasia(rs.getString("forn_fantasia"));
-              f.setEndereco(rs.getString("forn_endereco"));
-              f.setBairro(rs.getString("forn_bairro"));
-              f.setEmail(rs.getString("forn_email"));
-              f.setInscricao_estadual(rs.getString("forn_inscricao_estadual"));
-              f.setCep(rs.getString("forn_cep"));
-              f.setCategoria(new CategoriaDAO().getCategoria(rs.getInt("cat_id_categoria"), con));
-              f.setCidade(rs.getString("forn_cidade"));
-          }
+            if (rs.next())
+            {
+                f.setCnpj(rs.getString("forn_cnpj"));
+                f.setRazao(rs.getString("forn_razao"));
+                f.setFantasia(rs.getString("forn_fantasia"));
+                f.setEndereco(rs.getString("forn_endereco"));
+                f.setBairro(rs.getString("forn_bairro"));
+                f.setEmail(rs.getString("forn_email"));
+                f.setInscricao_estadual(rs.getString("forn_inscricao_estadual"));
+                f.setCep(rs.getString("forn_cep"));
+                f.setCategoria(new CategoriaDAO().getCategoria(rs.getInt("cat_id_categoria"), con));
+                f.setCidade(rs.getString("forn_cidade"));
+            }
         }
         catch(Exception e){System.out.println(e);}
         return f;

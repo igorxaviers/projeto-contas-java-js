@@ -45,7 +45,7 @@
                 </div>
                 <div class="mb-3">
                     <label for="inscricao_estadual" class="form-label">Inscrição Estadual:</label>
-                    <input type="text" class="form-control" name="inscricao_estadual" placeholder="Inscrição Estadual do fornecedor" required minlength="1" maxlength="50">
+                    <input type="text" class="form-control" name="inscricao_estadual" placeholder="Inscrição Estadual do fornecedor" required minlength="1" maxlength="15">
                 </div>
                 <div class="mb-3">
                     <label for="email" class="form-label">Email:</label>

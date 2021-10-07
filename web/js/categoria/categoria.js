@@ -43,7 +43,10 @@ categorias = {
                 form2.classList.toggle("d-none");
                 form2.reset();
                 categorias.listaCategorias();
-                ohSnap(resp, {color: 'green'});
+                if(resp.toUpperCase().includes('ERRO'))
+                    ohSnap(resp, {color: 'red'});
+                else
+                    ohSnap(resp, {color: 'green'});
             })
             .catch(e => {
                 ohSnap(e, {color: 'red'});
@@ -73,7 +76,10 @@ categorias = {
                 form2.classList.toggle("d-none");
                 form2.reset();
                 categorias.listaCategorias();
-                ohSnap(resp, {color: 'green'});
+                if(resp.toUpperCase().includes('ERRO'))
+                    ohSnap(resp, {color: 'red'});
+                else
+                    ohSnap(resp, {color: 'green'});
             })
             .catch(e => {
                 ohSnap(e, {color: 'red'});

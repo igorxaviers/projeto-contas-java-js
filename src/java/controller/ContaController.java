@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import model.Conta;
+import model.Fornecedor;
 import model.Usuario;
 import org.json.JSONObject;
 
@@ -73,15 +74,16 @@ public class ContaController extends HttpServlet {
                             formato.parse(OBJ.getString("cont_data")),
                             formato.parse(OBJ.getString("cont_data_vencimento")),
                             OBJ.getDouble("cont_valor"),
-                            u                
+                            u,
+                            new Fornecedor(OBJ.getString("cnpj"))            
                         );
                         if(cPagar.adicionarConta(c))
                         {
                             c.addTodosAdmin(Banco.getConexao());
                             c.notificar();//MENSAGENS ENVIADAS AOS ADMINS
                             response.getWriter().print("Conta salva com sucesso, os admins foram notificados");
-                            
-                        }else
+                        }
+                        else
                             response.getWriter().print("Houve um erro ao salvar a conta");
                     break;
 
@@ -94,7 +96,8 @@ public class ContaController extends HttpServlet {
                             formato.parse(OBJ.getString("cont_data_vencimento")),
                             OBJ.getDouble("cont_valor"),
                             u,
-                            aux.valida(OBJ.getString("cont_status"))
+                            aux.valida(OBJ.getString("cont_status")),
+                            new Fornecedor(OBJ.getString("cnpj"))
                         );
                         if(cPagar.alterar(c))
                             response.getWriter().print("Conta alterada com sucesso!");
@@ -109,7 +112,6 @@ public class ContaController extends HttpServlet {
                             response.getWriter().print("Conta excluída com sucesso");
                         else
                            response.getWriter().print("Houve um erro ao excluir a conta pois a conta está "+ c.getStatus().getNome());
-
                     break;
                 }
             }
@@ -124,7 +126,8 @@ public class ContaController extends HttpServlet {
                             formato.parse(OBJ.getString("cont_data")),
                             formato.parse(OBJ.getString("cont_data_vencimento")),
                             OBJ.getDouble("cont_valor"),
-                            u                
+                            u,
+                            new Fornecedor(OBJ.getString("cnpj"))
                         );
                         if(cReceber.adicionarConta(c))
                             response.getWriter().print("Conta salva com sucesso");
@@ -133,13 +136,15 @@ public class ContaController extends HttpServlet {
                     break;
 
                     case "alterar":
-                        c = new Conta(OBJ.getInt("cont_id"),
+                        c = new Conta(
+                            OBJ.getInt("cont_id"),
                             OBJ.getInt("cont_tipo"),
                             OBJ.getString("cont_desc"),
                             formato.parse(OBJ.getString("cont_data")),
                             formato.parse(OBJ.getString("cont_data_vencimento")),
                             OBJ.getDouble("cont_valor"),
-                            u                
+                            u,
+                            new Fornecedor(OBJ.getString("cnpj"))
                         );
                         if(cReceber.alterar(c))
                             response.getWriter().print("Conta alterada com sucesso!");
@@ -159,7 +164,9 @@ public class ContaController extends HttpServlet {
                 }
             }
         }
-        catch(Exception e){}
+        catch(Exception e){
+            response.getWriter().print("Houve um erro ao salvar a conta");
+        }
         
     }
 

@@ -10,6 +10,10 @@ public class Fornecedor {
 
     public Fornecedor(){        
     }
+
+    public Fornecedor(String cnpj){     
+        this.cnpj = cnpj;
+    }
     
     public Fornecedor(String cnpj, String razao, String fantasia, String endereco, String bairro, String email, String inscricao_estadual, String cep, String cidade, Categoria categoria) {
         this.cnpj = cnpj;
@@ -111,31 +115,27 @@ public class Fornecedor {
     
     //---------OPERAÇÕES BD
      public boolean salvar(Conexao con) {
-        FornecedorDAO fDAO = new FornecedorDAO();
-        return fDAO.salvar(this, con);
+        return new FornecedorDAO().salvar(this, con);
     }
 
     public boolean alterar(Conexao con) {
-        FornecedorDAO fDAO = new FornecedorDAO();
-        return fDAO.alterar(this, con);
+        return new FornecedorDAO().alterar(this, con);
     }
 
     public boolean excluir(Conexao con) {
-        FornecedorDAO fDAO = new FornecedorDAO();
-        return fDAO.excluir(this.cnpj, con);
+        return new FornecedorDAO().excluir(this.cnpj, con);
     }
 
     public Fornecedor getFornecedor(Conexao con) {
-        FornecedorDAO fDAO = new FornecedorDAO();
-        return fDAO.getFornecedor(this.cnpj, con);
+        return new FornecedorDAO().getFornecedor(this.cnpj, con);
     }
-    public Fornecedor getFornecedorPorRazao(Conexao con) {
-        FornecedorDAO fDAO = new FornecedorDAO();
-        return fDAO.getFornecedorPorRazao(this.razao, con);
+    
+    public Fornecedor getFornecedorPorCNPJ(Conexao con) {
+        return new FornecedorDAO().getFornecedorPorCNPJ(this.razao, con);
     }
+    
     public ArrayList<Fornecedor> getFornecedores(String filtro, Conexao con) {
-        FornecedorDAO fDAO = new FornecedorDAO();
-        return fDAO.getFornecedores(filtro, con);
+        return new FornecedorDAO().getFornecedores(filtro, con);
     }
 
     public boolean valida() {

@@ -16,13 +16,14 @@ public class Conta implements Sujeito
     private double valor;
     private Usuario usuario;
     private State status;
+    private Fornecedor fornecedor;
 
     //Lista de Observadores
     private ArrayList<Observer> observadores;
     
     public Conta(){}
     
-    public Conta(int id,int tipo,String descricao, Date data, Date data_vencimento, double valor, Usuario usuario) 
+    public Conta(int id, int tipo, String descricao, Date data, Date data_vencimento, double valor, Usuario usuario, Fornecedor fornecedor) 
     {
         this.descricao = descricao;
         this.tipo = tipo;
@@ -32,8 +33,9 @@ public class Conta implements Sujeito
         this.valor = valor;
         this.usuario = usuario;
         this.status = new Pendente();
+        this.fornecedor = fornecedor;
     }
-    public Conta(int tipo,String descricao, Date data, Date data_vencimento, double valor, Usuario usuario) 
+    public Conta(int tipo,String descricao, Date data, Date data_vencimento, double valor, Usuario usuario, Fornecedor fornecedor) 
     {
         this.descricao = descricao;
         this.tipo = tipo;
@@ -42,9 +44,10 @@ public class Conta implements Sujeito
         this.valor = valor;
         this.usuario = usuario;
         this.status = new Pendente();
+        this.fornecedor = fornecedor;
     }
 
-    public Conta(int id, int tipo, String descricao, Date data, Date data_vencimento, double valor, Usuario usuario, State status)
+    public Conta(int id, int tipo, String descricao, Date data, Date data_vencimento, double valor, Usuario usuario, State status, Fornecedor fornecedor)
     {
         this.descricao = descricao;
         this.id = id;
@@ -54,6 +57,7 @@ public class Conta implements Sujeito
         this.valor = valor;
         this.usuario = usuario;
         this.status = status;
+        this.fornecedor = fornecedor;
     }
 
     
@@ -203,6 +207,15 @@ public class Conta implements Sujeito
     public void setStatus(State state) {
         this.status = state;
     }
+
+    public Fornecedor getFornecedor() {
+        return this.fornecedor;
+    }
+
+    public void setFornecedor(Fornecedor fornecedor) {
+        this.fornecedor = fornecedor;
+    }
+
     
     public State valida(String aux){
         if(aux.equalsIgnoreCase("Aprovado"))
@@ -217,11 +230,12 @@ public class Conta implements Sujeito
 
     public boolean valida()
     {
-        if(descricao.length() > 5 && usuario!=null)
+        if(descricao.length()>2 && usuario!=null)
             if(valor >= 0)
                 if(tipo == 0 || tipo == 1)
                     if(data_vencimento.compareTo(data) > 0)
-                        return true;
+                        if(fornecedor.getCnpj().length() == 14)
+                            return true;
         return false;
     }
 }

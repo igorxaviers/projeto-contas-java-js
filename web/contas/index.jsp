@@ -26,7 +26,7 @@
                 <div class="row mb-3">
                     <div class="col-6" >
                         <label for="">Tipo da conta:</label>
-                        <select name="tipo_conta" class="form-control" required>
+                        <select name="tipo_conta" class="form-control" >
                             <option value="0">Pagar</option>
                             <option value="1">Receber</option>
                         </select>
@@ -42,6 +42,14 @@
                         <%}else{%>
                         <input disabled name="status" value=""  class="form-control">
                         <%}%>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-12" >
+                        <label for="">Fornecedor:</label>
+                        <select name="fornecedor" class="form-control" id="fornecedores" required>
+                            <option selected hidden disabled>-- Selecione um fornecedor --</option>
+                        </select>
                     </div>
                 </div>
                 <div class="row mb-3">
@@ -83,6 +91,7 @@
                             <tr role="row">
                                 <th>Data</th>
                                 <th>Data vencimento</th>
+                                <th>Fornecedor</th>
                                 <th>Responsável</th>
                                 <th>Descrição</th>
                                 <th>Status</th>

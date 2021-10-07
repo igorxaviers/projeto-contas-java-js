@@ -58,18 +58,24 @@ public class CategoriaController extends HttpServlet {
             switch(acao){
                 case "add":
                     c = new Categoria(OBJ.getString("nome"));
-                    if(c.salvar(Banco.getConexao()))
-                        response.getWriter().print("Categoria salva com sucesso");
+                    if(c.valida())
+                        if(c.salvar(Banco.getConexao()))
+                            response.getWriter().print("Categoria salva com sucesso");
+                        else
+                            response.getWriter().print("Houve um erro ao cadastrar a categoria");
                     else
-                        response.getWriter().print("Houve um erro ao salvar a categoria");
+                        response.getWriter().print("Erro: Corrija os campos inválidos");
                 break;
                 
                 case "alterar":
                     c = new Categoria(OBJ.getInt("id"), OBJ.getString("nome"));
-                    if(c.alterar(Banco.getConexao()))
-                        response.getWriter().print("Categoria alterada com sucesso");
+                    if(c.valida())
+                        if(c.alterar(Banco.getConexao()))
+                            response.getWriter().print("Categoria alterada com sucesso");
+                        else
+                            response.getWriter().print("Houve um erro ao alterar a categoria");
                     else
-                        response.getWriter().print("Houve um erro ao alterar a categoria");
+                        response.getWriter().print("Erro: Corrija os campos inválidos");
                 break;
 
                 case "excluir":
@@ -82,7 +88,7 @@ public class CategoriaController extends HttpServlet {
                 break;
             }
         } catch (JSONException e1) {
-            e1.printStackTrace();
+            response.getWriter().print("Houve um erro ao salvar a conta");
         }
     }
 

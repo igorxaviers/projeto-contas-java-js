@@ -2,6 +2,7 @@ contas = {
     init: () => {
         contas.listaContas();
     },
+
     listaContas: () => {
         HTTPClient.get('/Contas')
         .then(contas => {
@@ -18,6 +19,7 @@ contas = {
                 <tr>
                     <td>${conta.data}</td> 
                     <td>${conta.data_vencimento}</td> 
+                    <td>${conta.fornecedor.fantasia}</td> 
                     <td>${conta.usuario.nome}</td> 
                     <td>${conta.descricao}</td> 
                     <td>${conta.status.nome}</td> 
@@ -34,6 +36,7 @@ contas = {
             ohSnap(e, {color: 'red'});
         })
     },
+
     cadastrarConta: () => {
         const form = document.getElementById("form-conta").elements;
         const form2 = document.getElementById("form-conta");
@@ -43,8 +46,10 @@ contas = {
             cont_desc: form['descricao'].value,
             cont_valor: form['valor'].value,
             cont_tipo: form['tipo_conta'].value,
+            cnpj: form['fornecedor'].value,
             acao: "add"
         }
+        console.log(conta);
         if(Validations.isValid())
         {
             HTTPClient.post('/Contas', conta)
@@ -55,7 +60,11 @@ contas = {
                 form2.classList.toggle("d-none");
                 form2.reset();
                 contas.listaContas();
-                ohSnap(resp, {color: 'green'});
+                console.log(resp);
+                if(resp.includes('erro'))
+                    ohSnap(resp, {color: 'red'});
+                else
+                    ohSnap(resp, {color: 'green'});
             })
             .catch(e => {
                 ohSnap(e, {color: 'red'});
@@ -65,6 +74,7 @@ contas = {
         else
             ohSnap('Corrija os campos inválidos', {color: 'red'});
     },
+
     alterarConta: () => {
         const form = document.getElementById("form-conta").elements;
         const form2 = document.getElementById("form-conta");
@@ -76,6 +86,7 @@ contas = {
             cont_valor: form['valor'].value,
             cont_tipo: form['tipo_conta'].value,
             cont_status: form['status'].value,
+            cnpj: form['fornecedor'].value,
             acao: "alterar"
         };
         console.log(form['valor'].value);
@@ -98,6 +109,7 @@ contas = {
         });
         
     },
+
     excluir: (id) => {
         const conta = {
             cont_id: id,
@@ -123,9 +135,11 @@ contas = {
             })
         }
     },
+
     mostraForm: (acao, id=0) => {
         const form = document.getElementById("form-conta");
         Validations.eventValidations(form.elements);
+        contas.listaFornecedores();
         if(acao == 'cadastrar')
         {
             form.classList.toggle("d-none");
@@ -150,6 +164,7 @@ contas = {
                 form['valor'].value = conta.valor;
                 form['tipo_conta'].value = conta.tipo;
                 form['status'].value = conta.status.nome;
+                form['fornecedor'].value = conta.fornecedor.cnpj;
             })
             .catch(e => {
                 ohSnap('Erro: ', e);
@@ -158,6 +173,29 @@ contas = {
             document.getElementById("bt-cadastrar").classList.add("d-none");
         }
     },
+
+    listaFornecedores: () => {
+        HTTPClient.get('/Fornecedor')
+        .then(fornecedores => {
+            return fornecedores.json();
+        })
+        .then(fornecedores => {
+            console.log(fornecedores);
+            const select = document.getElementById("fornecedores");
+            let opt;
+            select.innerHTML = '<option selected hidden disabled>-- Selecione um fornecedor --</option>';
+            fornecedores.forEach(fornecedor => {
+                opt = document.createElement('option');
+                opt.value = fornecedor.cnpj;
+                opt.innerHTML = fornecedor.fantasia;
+                select.appendChild(opt);
+            });
+        })
+        .catch(e => {
+            ohSnap(e, {color: 'red'});
+        })
+    },
+
     fechar: () => {
         const form = document.getElementById("form-conta");
         form.classList.toggle("d-none");

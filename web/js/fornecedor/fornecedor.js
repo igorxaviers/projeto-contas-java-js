@@ -64,7 +64,10 @@ fornecedores = {
                 form2.classList.toggle("d-none");
                 form2.reset();
                 fornecedores.listaFornecedores();
-                ohSnap(resp, {color: 'green'});
+                if(resp.toUpperCase().includes('ERRO'))
+                    ohSnap(resp, {color: 'red'});
+                else
+                    ohSnap(resp, {color: 'green'});
             })
             .catch(e => {
                 ohSnap(e, {color: 'red'});
@@ -104,7 +107,10 @@ fornecedores = {
                 form2.classList.toggle("d-none");
                 form2.reset();
                 fornecedores.listaFornecedores();
-                ohSnap(resp, {color: 'green'});
+                if(resp.toUpperCase().includes('ERRO'))
+                    ohSnap(resp, {color: 'red'});
+                else
+                    ohSnap(resp, {color: 'green'});
             })
             .catch(e => {
                 ohSnap(e, {color: 'red'});
@@ -205,7 +211,7 @@ fornecedores = {
         else
         {
             document.getElementById("cnpj-fornecedor").value = cnpj;
-            HTTPClient.get(`/Fornecedor?acao=busca&cnpj=${cnpj}`)
+            HTTPClient.get(`/Fornecedor?acao=buscar&cnpj=${cnpj}`)
             .then(resp => {
                 return resp.json();
             })
@@ -263,7 +269,7 @@ fornecedores.init();
 
 function removeCaracters(valor) {
     let valorCorreto = valor;
-    valorCorreto = valorCorreto.replace('.', '');
+    valorCorreto = valorCorreto.replaceAll('.', '');
     valorCorreto = valorCorreto.replace('/', '');
     valorCorreto = valorCorreto.replace('-', '');
     return valorCorreto;

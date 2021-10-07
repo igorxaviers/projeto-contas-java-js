@@ -5,6 +5,8 @@ import bd.util.Conexao;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import model.Conta;
+import model.Fornecedor;
+import model.Usuario;
 
 
 public class ContaDAO 
@@ -16,14 +18,14 @@ public class ContaDAO
     
     public boolean salvar (Conta c, Conexao con)
     {
-        String sql="insert into contas (cont_tipo,cont_data,cont_data_vencimento,cont_descricao,cont_status,cont_valor,usu_id_usuarios) values "
-                + "("+c.getTipo()+",'"+c.getData()+"','"+c.getData_vencimento()+"','"+c.getDescricao()+"','"+c.getStatus().getNome()+"',"+c.getValor()+","+c.getUsuario().getId()+")";
+        String sql="insert into contas (cont_tipo,cont_data,cont_data_vencimento,cont_descricao,cont_status,cont_valor,usu_id_usuarios,forn_cnpj) values "
+                + "("+c.getTipo()+",'"+c.getData()+"','"+c.getData_vencimento()+"','"+c.getDescricao()+"','"+c.getStatus().getNome()+"',"+c.getValor()+","+c.getUsuario().getId()+", '"+c.getFornecedor().getCnpj()+"')";
         return con.manipular(sql);
     }
     
     public boolean alterar (Conta c, Conexao con)
     {   
-        String sql = "update contas set cont_status='"+c.getStatus().getNome()+"', cont_valor ="+c.getValor()+",cont_data='"+c.getData()+"',cont_data_vencimento='"+c.getData_vencimento()+"',cont_descricao='"+c.getDescricao()+"' where cont_id="+c.getId();
+        String sql = "update contas set cont_status='"+c.getStatus().getNome()+"', cont_valor ="+c.getValor()+",cont_data='"+c.getData()+"',cont_data_vencimento='"+c.getData_vencimento()+"',cont_descricao='"+c.getDescricao()+"', forn_cnpj='"+c.getFornecedor().getCnpj()+"' where cont_id="+c.getId();
         return con.manipular(sql);                 
     }
 
@@ -46,10 +48,11 @@ public class ContaDAO
                 c.setData_vencimento(rs.getDate("cont_data_vencimento"));
                 c.setDescricao(rs.getString("cont_descricao"));
                 c.setTipo(rs.getInt("cont_tipo"));
-                c.setUsuario(new UsuarioDAO().getUsuario(rs.getInt("usu_id_usuarios"), con));
+                c.setUsuario(new Usuario(rs.getInt("usu_id_usuarios")).getUsuario(con));
                 c.setValor(rs.getDouble("cont_valor"));
                 aux = rs.getString("cont_status");
                 c.setStatus(c.valida(aux));
+                c.setFornecedor(new Fornecedor(rs.getString("forn_cnpj")).getFornecedor(con));
             }
         }
         catch(Exception e){System.out.println(e);}
@@ -71,15 +74,18 @@ public class ContaDAO
             while(rs.next())
             {
                 aux = rs.getString("cont_status");
-                lista.add(new Conta(
-                    rs.getInt("cont_id"),
-                    rs.getInt("cont_tipo"),
-                    rs.getString("cont_descricao"),
-                    rs.getDate("cont_data"),
-                    rs.getDate("cont_data_vencimento"),
-                    rs.getDouble("cont_valor"),
-                    new UsuarioDAO().getUsuario(rs.getInt("usu_id_usuarios"),con),
-                    c.valida(aux)));
+                lista.add(
+                    new Conta(
+                        rs.getInt("cont_id"),
+                        rs.getInt("cont_tipo"),
+                        rs.getString("cont_descricao"),
+                        rs.getDate("cont_data"),
+                        rs.getDate("cont_data_vencimento"),
+                        rs.getDouble("cont_valor"),
+                        new Usuario(rs.getInt("usu_id_usuarios")).getUsuario(con),
+                        c.valida(aux),
+                        new Fornecedor(rs.getString("forn_cnpj")).getFornecedor(con))
+                    );
             }
                 
         }
