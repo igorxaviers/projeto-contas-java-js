@@ -41,32 +41,26 @@ public class Categoria {
     /* ============== OPERAÇÕES BD ============== */
 
     public boolean salvar(Conexao con) {
-        CategoriaDAO cDAO = new CategoriaDAO();
-        return cDAO.salvar(this, con);
+        return new CategoriaDAO().salvar(this, con);
     }
 
     public boolean alterar(Conexao con) {
-        CategoriaDAO cDAO = new CategoriaDAO();
-        return cDAO.alterar(this, con);
+        return new CategoriaDAO().alterar(this, con);
     }
 
     public boolean excluir(Conexao con) {
-        CategoriaDAO cDAO = new CategoriaDAO();
-        return cDAO.excluir(this.id, con);
+        return new CategoriaDAO().excluir(this.id, con);
     }
 
     public Categoria getCategoria(Conexao con) {
-        CategoriaDAO cDAO = new CategoriaDAO();
-        return cDAO.getCategoria(this.id, con);
+        return new CategoriaDAO().getCategoria(this.id, con);
     }
     
     public Categoria getCategoriaPorNome(Conexao con) {
-        CategoriaDAO cDAO = new CategoriaDAO();
-        return cDAO.getCategoriaPorNome(this.nome, con);
+        return new CategoriaDAO().getCategoriaPorNome(this.nome, con);
     }
     public ArrayList<Categoria> getCategorias(String filtro, Conexao con) {
-        CategoriaDAO cDAO = new CategoriaDAO();
-        return cDAO.getCategorias(filtro, con);
+        return new CategoriaDAO().getCategorias(filtro, con);
     }
 
     @Override

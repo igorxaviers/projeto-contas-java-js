@@ -3,7 +3,6 @@ package model;
 
 import bd.dao.ContaDAO;
 import bd.dao.ObservadorDAO;
-import bd.util.Banco;
 import bd.util.Conexao;
 import java.util.ArrayList;
 import java.util.Date;

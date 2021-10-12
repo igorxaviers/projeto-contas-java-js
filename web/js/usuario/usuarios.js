@@ -15,8 +15,8 @@ usuarios = {
                 <tr>
                     <td>${usuario.nome}</td> 
                     <td>${usuario.login}</td>
-                    <td>${usuario.admin}</td>
-                    <td>${usuario.ativo}</td>
+                    <td class="text-center">${(usuario.admin ? '✔': '❌')}</td>
+                    <td class="text-center">${(usuario.ativo  ? '✔': '❌')}</td>
                     <td class="text-center text-warning"><i class="fas fa-edit" onclick="usuarios.mostraForm('alterar',${usuario.id})"></i></td>
                     <td class="text-center text-danger"><i class="fas fa-trash-alt" onclick="usuarios.excluir(${usuario.id}, '${usuario.nome}')"></i></td>
                 </tr>`;

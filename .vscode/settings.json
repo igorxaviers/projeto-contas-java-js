@@ -5,5 +5,18 @@
         "postgresql-42.1.4.jar",
         "c:\\Users\\igorr\\Downloads\\javax.servlet-api-4.0.0.jar",
         "c:\\Users\\igorr\\Desktop\\java-json.jar"
+    ],
+    "sqltools.connections": [
+        {
+            "previewLimit": 50,
+            "server": "kesavan.db.elephantsql.com",
+            "port": 5432,
+            "driver": "PostgreSQL",
+            "name": "banco-contas",
+            "group": "engIII",
+            "database": "ukihqocn",
+            "username": "ukihqocn",
+            "password": "wI1N6I37fnkzxx9q4_UZOnf_hfN6XoKB"
+        }
     ]
 }

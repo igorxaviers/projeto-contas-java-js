@@ -47,7 +47,7 @@ public class ObservadorDAO {
     
     public ArrayList<Observer> getObservadores(int conta, Conexao con)
     {   
-        ArrayList <Observer> lista = new ArrayList();
+        ArrayList <Observer> lista = new ArrayList<>();
         String sql = "select * from observadores where id_conta = " + conta;
         sql += " order by id_usu";
         ResultSet rs = con.consultar(sql);
@@ -62,7 +62,7 @@ public class ObservadorDAO {
     
     public ArrayList<Observer> addTodosAdmin(int id_conta, Conexao con)
     {   
-        ArrayList <Observer> lista = new ArrayList();
+        ArrayList <Observer> lista = new ArrayList<>();
         String sql = "select * from usuarios where usu_admin = true and usu_ativo = true";
         sql += " order by usu_id";
         ResultSet rs = con.consultar(sql);

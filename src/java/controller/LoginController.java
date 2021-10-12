@@ -1,22 +1,8 @@
 package controller;
-import bd.util.Conexao;
 import bd.util.Banco;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.google.gson.internal.bind.JsonAdapterAnnotationTypeAdapterFactory;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -66,7 +52,7 @@ public class LoginController extends HttpServlet {
                 // String dados = "{\"url\": \"\", \"ok\": false, \"mensagem\": \"Dados incorretos\"}";
                 // JsonObject json = new JsonParser().parse(dados).getAsJsonObject();
                 // response.getWriter().print(json);
-                response.sendRedirect("/erro");
+                response.sendRedirect("/");
             }
         } catch (Exception e) {
             response.sendRedirect("/erro");

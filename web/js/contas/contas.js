@@ -19,10 +19,10 @@ contas = {
                 <tr>
                     <td>${conta.data}</td> 
                     <td>${conta.data_vencimento}</td> 
-                    <td>${conta.fornecedor.fantasia}</td> 
+                    <td>${(conta.fornecedor.fantasia ? conta.fornecedor.fantasia : '---')}</td> 
                     <td>${conta.usuario.nome}</td> 
                     <td>${conta.descricao}</td> 
-                    <td>${conta.status.nome}</td> 
+                    <td>${conta.status.nome} <div class="status ${conta.status.nome}"></div></td> 
                     <td>R$${conta.valor}</td> 
                     <td>${tipo}</td> 
                     <td class="text-center text-warning " onclick="contas.mostraForm('alterar',${conta.id})"><i class="fas fa-edit"></i></td>
@@ -142,6 +142,7 @@ contas = {
         contas.listaFornecedores();
         if(acao == 'cadastrar')
         {
+            form['tipo_conta'].disabled = false;
             form.classList.toggle("d-none");
             document.getElementById("status-conta").classList.add("d-none");
             document.getElementById("bt-cadastrar").classList.remove("d-none");
@@ -175,7 +176,7 @@ contas = {
     },
 
     listaFornecedores: () => {
-        HTTPClient.get('/Fornecedor')
+        HTTPClient.get('/Fornecedores')
         .then(fornecedores => {
             return fornecedores.json();
         })

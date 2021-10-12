@@ -59,7 +59,7 @@ public class FornecedorDAO {
 
     public ArrayList<Fornecedor> getFornecedores(String filtro, Conexao con)
     {   
-        ArrayList <Fornecedor> lista = new ArrayList();
+        ArrayList <Fornecedor> lista = new ArrayList<>();
         String sql = "select * from fornecedores";
         if (!filtro.isEmpty())
             sql+=" where " + filtro;

@@ -1,15 +1,17 @@
-
 package model;
 
+import bd.dao.CaixaDAO;
+import bd.util.Conexao;
 
 public class Caixa 
 {
     public double saldo;
     public boolean status;
 
-    public Caixa() 
-    {
-        this.saldo = 1000;
+    public Caixa(){ }
+
+    public Caixa(Conexao con){
+        getSaldo(con);
     }
 
     public double getSaldo() {
@@ -26,6 +28,19 @@ public class Caixa
 
     public void setStatus(boolean status) {
         this.status = status;
+    }
+
+    public void getSaldo(Conexao con) {
+        this.saldo = new CaixaDAO().getSaldo(con);
+    }
+
+    public boolean alterarSaldo(Double valor, Conexao con) {
+        if(new CaixaDAO().alterarSaldo(valor, con))
+        {
+            getSaldo(con);
+            return true;
+        }
+        return false;
     }
     
     

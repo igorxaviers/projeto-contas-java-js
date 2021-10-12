@@ -3,7 +3,7 @@ fornecedores = {
         fornecedores.listaFornecedores();
     },
     listaFornecedores: () => {
-        HTTPClient.get('/Fornecedor?acao=listar')
+        HTTPClient.get('/Fornecedores')
         .then(fornecedores => {
             return fornecedores.json();
         })
@@ -56,7 +56,7 @@ fornecedores = {
         console.log(dados);
         if(Validations.isValid())
         {
-            HTTPClient.post('/Fornecedor', dados)
+            HTTPClient.post('/Fornecedores', dados)
             .then(resp => {
                 return resp.text();
             })
@@ -98,7 +98,7 @@ fornecedores = {
 
         if(Validations.isValid())
         {
-            HTTPClient.post('/Fornecedor', dados)
+            HTTPClient.post('/Fornecedores', dados)
             .then(fornecedores => {
                 console.log(fornecedores)
                 return fornecedores.text();
@@ -129,7 +129,7 @@ fornecedores = {
         let resposta = confirm("Deseja mesmo excluir o fornecedor "+nome+" ?");
         if(resposta)
         {
-            HTTPClient.post('/Fornecedor', dados)
+            HTTPClient.post('/Fornecedores', dados)
             .then(fornecedores => {
                 console.log(fornecedores)
                 return fornecedores.text();
@@ -211,7 +211,7 @@ fornecedores = {
         else
         {
             document.getElementById("cnpj-fornecedor").value = cnpj;
-            HTTPClient.get(`/Fornecedor?acao=buscar&cnpj=${cnpj}`)
+            HTTPClient.get(`/Fornecedores?acao=buscar&cnpj=${cnpj}`)
             .then(resp => {
                 return resp.json();
             })

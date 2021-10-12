@@ -110,5 +110,5 @@
 </div>
 <script src="../js/contas/contas.js"></script>
 
-<jsp:include page="../footer.html"/>
+<jsp:include page="../footer.jsp"/>
 <% } %>  

@@ -52,5 +52,5 @@
 </div>
 <script src="../js/categoria/categoria.js"></script>
 
-<jsp:include page="../footer.html"/>
+<jsp:include page="../footer.jsp"/>
 <% } %>  

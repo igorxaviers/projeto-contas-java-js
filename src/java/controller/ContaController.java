@@ -6,7 +6,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import javax.servlet.ServletException;
@@ -88,8 +87,10 @@ public class ContaController extends HttpServlet {
                     break;
 
                     case "alterar":
+                        Conta contaAnt = new Conta();
                         Conta aux = new Conta();
-                        c = new Conta(OBJ.getInt("cont_id"),
+                        c = new Conta(
+                            OBJ.getInt("cont_id"),
                             OBJ.getInt("cont_tipo"),
                             OBJ.getString("cont_desc"),
                             formato.parse(OBJ.getString("cont_data")),
@@ -99,11 +100,14 @@ public class ContaController extends HttpServlet {
                             aux.valida(OBJ.getString("cont_status")),
                             new Fornecedor(OBJ.getString("cnpj"))
                         );
-                        if(cPagar.alterar(c))
+                        contaAnt.setId(c.getId());
+                        contaAnt = contaAnt.getConta(Banco.getConexao());
+                        if(cPagar.alterarConta(c))
                             response.getWriter().print("Conta alterada com sucesso!");
                         else
-                            response.getWriter().print("Alteração bloqueada pois a conta está "+c.getStatus().getNome()+", favor contatar seu responsável!");
+                            response.getWriter().print("Alteração bloqueada pois a conta está "+contaAnt.getStatus().getNome()+", favor contatar seu responsável!");
                     break;
+
                     case "excluir":
                         c = new Conta();
                         c.setId(OBJ.getInt("cont_id"));
@@ -146,7 +150,7 @@ public class ContaController extends HttpServlet {
                             u,
                             new Fornecedor(OBJ.getString("cnpj"))
                         );
-                        if(cReceber.alterar(c))
+                        if(cReceber.alterarConta(c))
                             response.getWriter().print("Conta alterada com sucesso!");
                         else
                             response.getWriter().print("Houve um erro ao alterar a conta!");
@@ -171,7 +175,6 @@ public class ContaController extends HttpServlet {
     }
 
     public JSONObject retornaJson(HttpServletRequest request) {
-        JSONObject OBJ;
         StringBuilder sb = new StringBuilder();
         String str;
         try {
@@ -179,7 +182,7 @@ public class ContaController extends HttpServlet {
             while( (str = br.readLine()) != null ){
                 sb.append(str);
             }    
-            return OBJ = new JSONObject(sb.toString());
+            return new JSONObject(sb.toString());
         } catch (Exception e) {}
         return new JSONObject();
     }

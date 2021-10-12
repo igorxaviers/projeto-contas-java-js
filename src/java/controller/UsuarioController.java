@@ -1,20 +1,13 @@
 package controller;
-import bd.util.Conexao;
 import bd.util.Banco;
 
 import com.google.gson.Gson;
-import com.google.gson.internal.bind.JsonAdapterAnnotationTypeAdapterFactory;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -82,7 +75,6 @@ public class UsuarioController extends HttpServlet {
     }
 
     public JSONObject retornaJson(HttpServletRequest request) {
-        JSONObject OBJ;
         StringBuilder sb = new StringBuilder();
         String str;
         try {
@@ -90,7 +82,7 @@ public class UsuarioController extends HttpServlet {
             while( (str = br.readLine()) != null ){
                 sb.append(str);
             }    
-            return OBJ = new JSONObject(sb.toString());
+            return new JSONObject(sb.toString());
         } catch (Exception e) {}
         return new JSONObject();
     }

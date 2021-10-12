@@ -111,19 +111,16 @@ public class Usuario implements Observer
     /* ============== OPERAÇÕES BD ============== */
 
     public boolean salvar(Conexao con) {
-        UsuarioDAO uDAO = new UsuarioDAO();
-        return uDAO.salvar(this, con);
+        return new UsuarioDAO().salvar(this, con);
     }
 
     public boolean alterar(Conexao con) {
-        UsuarioDAO uDAO = new UsuarioDAO();
-        return uDAO.alterar(this, con);
+        return new UsuarioDAO().alterar(this, con);
     }
 
     public boolean validar(Conexao con) {
-        UsuarioDAO uDAO = new UsuarioDAO();
-        Usuario aux = uDAO.validaLogin(this.login, this.senha, con);
-        if(aux != null)
+        Usuario aux = new UsuarioDAO().validaLogin(this.login, this.senha, con);
+        if(aux != null && aux.isAtivo() == true)
         {
             this.id = aux.getId();
             this.nome = aux.getNome();
@@ -135,24 +132,18 @@ public class Usuario implements Observer
     }
 
     public boolean excluir(Conexao con) {
-        UsuarioDAO uDAO = new UsuarioDAO();
-        return uDAO.excluir(this.id, con);
+        return new UsuarioDAO().excluir(this.id, con);
     }
 
     public Usuario getUsuario(Conexao con) {
-        UsuarioDAO uDAO = new UsuarioDAO();
-        return uDAO.getUsuario(this.id, con);
+        return new UsuarioDAO().getUsuario(this.id, con);
     }
     public Usuario getUsuarioPorEmail(Conexao con) {
-        UsuarioDAO uDAO = new UsuarioDAO();
-        return uDAO.getUsuarioPorLogin(this.login, con);
+        return new UsuarioDAO().getUsuarioPorLogin(this.login, con);
     }
     public ArrayList<Usuario> getUsuarios(String filtro, Conexao con) {
-        UsuarioDAO uDAO = new UsuarioDAO();
-        return uDAO.getUsuarios(filtro, con);
+        return new UsuarioDAO().getUsuarios(filtro, con);
     }
-
-
     
 
     @Override

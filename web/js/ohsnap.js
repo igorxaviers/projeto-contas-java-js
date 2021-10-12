@@ -22,9 +22,9 @@ function ohSnap(text, options) {
   var defaultOptions = {
     'color'       : null,     // color is  CSS class `alert-color`
     'icon'        : null,     // class of the icon to show before the alert text
-    'duration'    : '5000',   // duration of the notification in ms
+    'duration'    : '6000',   // duration of the notification in ms
     'container-id': 'ohsnap', // id of the alert container
-    'fade-duration': 'fast',  // duration of the fade in/out of the alerts. fast, slow or integer in ms
+    'fade-duration': '1000',  // duration of the fade in/out of the alerts. fast, slow or integer in ms
   }
 
   options = (typeof options == 'object') ? $.extend(defaultOptions, options) : defaultOptions;

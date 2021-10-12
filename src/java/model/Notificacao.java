@@ -1,7 +1,6 @@
 package model;
 
 import bd.dao.NotificacaoDAO;
-import bd.dao.UsuarioDAO;
 import bd.util.Conexao;
 import java.util.ArrayList;
 import java.util.Date;

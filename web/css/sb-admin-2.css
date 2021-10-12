@@ -6495,7 +6495,7 @@ button.bg-dark:focus {
 }
 
 .bg-white {
-  background-color: #ffffff !important;
+  /* background-color: #ffffff !important; */
 }
 
 .bg-transparent {
@@ -11330,4 +11330,32 @@ input[type="date"]{
   padding: 5px 10px;
   color: #686868;
   outline: none;
+}
+
+#ohsnap{
+  display: block;
+  position: fixed;
+  bottom: 50px;
+  right: 25px;
+  z-index: 10;
+  width: 500px;
+}
+
+.status{
+  border-radius: 50%;
+  width: 15px;
+  height: 15px;
+  margin: 5px auto;
+}
+
+.status.Aprovado{
+  background-color: #149063;
+}
+
+.status.Pendente{
+  background-color: #ffc013;
+}
+
+.status.Reprovado{
+  background-color: #ff0000;
 }

@@ -4,7 +4,6 @@ import model.Usuario;
 import bd.util.Conexao;
 import java.sql.ResultSet;
 import java.util.ArrayList;
-import model.Notificacao;
 
 public class UsuarioDAO {
 
@@ -57,7 +56,7 @@ public class UsuarioDAO {
 
     public ArrayList<Usuario> getUsuarios(String filtro, Conexao con)
     {   
-        ArrayList <Usuario> lista = new ArrayList();
+        ArrayList <Usuario> lista = new ArrayList<>();
         String sql = "select * from usuarios";
         if (!filtro.isEmpty())
             sql+=" where " + filtro;

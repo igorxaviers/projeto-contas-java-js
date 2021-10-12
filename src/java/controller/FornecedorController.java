@@ -9,7 +9,6 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -20,7 +19,7 @@ import model.Categoria;
 import model.Fornecedor;
 
 
-@WebServlet(name = "FornecedorController", urlPatterns = {"/Fornecedor"})
+@WebServlet(name = "FornecedorController", urlPatterns = {"/Fornecedores"})
 public class FornecedorController extends HttpServlet {
 
     @Override
@@ -110,7 +109,6 @@ public class FornecedorController extends HttpServlet {
     }
 
     public JSONObject retornaJson(HttpServletRequest request) {
-        JSONObject OBJ;
         StringBuilder sb = new StringBuilder();
         String str;
         try {
@@ -118,7 +116,7 @@ public class FornecedorController extends HttpServlet {
             while( (str = br.readLine()) != null ){
                 sb.append(str);
             }    
-            return OBJ = new JSONObject(sb.toString());
+            return new JSONObject(sb.toString());
         } catch (Exception e) {}
         return new JSONObject();
     }

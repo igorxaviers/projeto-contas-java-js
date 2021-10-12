@@ -57,7 +57,7 @@ public class CategoriaDAO {
 
     public ArrayList<Categoria> getCategorias(String filtro, Conexao con)
     {   
-        ArrayList <Categoria> lista = new ArrayList();
+        ArrayList <Categoria> lista = new ArrayList<>();
         String sql = "select * from categorias";
         if (!filtro.isEmpty())
             sql+=" where " + filtro;

@@ -1,9 +1,7 @@
 package controller;
 
-import bd.dao.ContaDAO;
 import bd.dao.ObservadorDAO;
 import bd.util.Banco;
-import java.util.ArrayList;
 import model.Pendente;
 import model.Conta;
 import model.Usuario;
@@ -15,8 +13,8 @@ public class PagarController extends TemplateConta
     public boolean alterar(Conta c)
     {
         Conta aux = new Conta();
-        aux.setId(c.getId());
-        if(aux.getConta(Banco.getConexao()).getStatus() instanceof Pendente)
+        aux.setId(c.getId()); 
+        if(aux.getConta(Banco.getConexao()).getStatus() instanceof Pendente) //Buscar no banco o Status atual da conta para altera-la
             return c.alterar(Banco.getConexao());
         return false;
     }

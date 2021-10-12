@@ -79,6 +79,6 @@
         </div>
     </div>
 </div>
-<jsp:include page="../footer.html"/>
+<jsp:include page="../footer.jsp"/>
 <script src="../js/usuario/usuarios.js"></script>
 <% } %>

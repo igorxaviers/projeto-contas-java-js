@@ -1,9 +1,7 @@
 
 package model;
 
-import bd.util.Banco;
 import bd.util.Conexao;
-import java.util.ArrayList;
 
 
 public interface Sujeito 

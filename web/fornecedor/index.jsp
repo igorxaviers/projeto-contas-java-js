@@ -113,5 +113,5 @@
 </div>
 <script src="../js/fornecedor/fornecedor.js"></script>
 
-<jsp:include page="../footer.html"/>
+<jsp:include page="../footer.jsp"/>
 <% } %>
