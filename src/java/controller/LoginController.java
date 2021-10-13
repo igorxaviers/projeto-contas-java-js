@@ -16,13 +16,10 @@ import model.Usuario;
 @WebServlet(name = "LoginController", urlPatterns = {"/Login"})
 public class LoginController extends HttpServlet {
 
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    }
-
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        processRequest(request, response);
     }
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Usuario usuario;
@@ -35,13 +32,13 @@ public class LoginController extends HttpServlet {
 
                 // String dados = "{\"url\": \"usuarios\", \"ok\": true, \"mensagem\": \"Login feito com sucesso\"}";
                 // JsonObject json = new JsonParser().parse(dados).getAsJsonObject();
-
                 // response.getWriter().print(json);
+
                 Notificacao notificacao = new Notificacao(usuario);
                 ArrayList<Notificacao> notificacoes = notificacao.getNotificacoes(Banco.getConexao());
                 sessao.setAttribute("notificacoes", notificacoes);
                 if(usuario.isAdmin())
-                    response.sendRedirect("/usuarios");
+                    response.sendRedirect("/dashboard");
                 else
                     response.sendRedirect("/contas");
             }
@@ -49,13 +46,15 @@ public class LoginController extends HttpServlet {
             {
                 HttpSession sessao = request.getSession();
                 sessao.invalidate();
+
                 // String dados = "{\"url\": \"\", \"ok\": false, \"mensagem\": \"Dados incorretos\"}";
                 // JsonObject json = new JsonParser().parse(dados).getAsJsonObject();
                 // response.getWriter().print(json);
-                response.sendRedirect("/");
+                
+                response.sendRedirect("/index.jsp?erro=Dados+incorretos");
             }
         } catch (Exception e) {
-            response.sendRedirect("/erro");
+            response.sendRedirect("/index.jsp?erro=Erro+de+conexão");
             e.printStackTrace();
         }
     }   

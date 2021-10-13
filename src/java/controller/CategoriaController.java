@@ -87,7 +87,7 @@ public class CategoriaController extends HttpServlet {
     public JSONObject retornaJson(HttpServletRequest request) {
         StringBuilder sb = new StringBuilder();
         String str;
-        try {
+        try { 
             BufferedReader br = request.getReader();
             while( (str = br.readLine()) != null ){
                 sb.append(str);

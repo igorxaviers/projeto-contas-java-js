@@ -15,8 +15,10 @@ categorias = {
                 valores += `
                 <tr>
                     <td>${categoria.nome}</td> 
-                    <td class="text-center text-warning " onclick="categorias.mostraForm('alterar',${categoria.id})"><i class="fas fa-edit"></i></td>
-                    <td class="text-center text-danger" onclick="categorias.excluir(${categoria.id}, '${categoria.nome}')"><i class="fas fa-trash-alt"></i></td>
+                    <td class="text-center bt-action " >
+                        <i class="fas fa-edit" title="Editar" onclick="categorias.mostraForm('alterar',${categoria.id})"></i>
+                        <i class="fas fa-trash-alt" title="Excluir" onclick="categorias.excluir(${categoria.id}, '${categoria.nome}')"></i>
+                    </td>
                 </tr>`;
             });
             tabela.innerHTML = valores;

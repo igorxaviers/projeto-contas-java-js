@@ -15,10 +15,12 @@ usuarios = {
                 <tr>
                     <td>${usuario.nome}</td> 
                     <td>${usuario.login}</td>
-                    <td class="text-center">${(usuario.admin ? '✔': '❌')}</td>
-                    <td class="text-center">${(usuario.ativo  ? '✔': '❌')}</td>
-                    <td class="text-center text-warning"><i class="fas fa-edit" onclick="usuarios.mostraForm('alterar',${usuario.id})"></i></td>
-                    <td class="text-center text-danger"><i class="fas fa-trash-alt" onclick="usuarios.excluir(${usuario.id}, '${usuario.nome}')"></i></td>
+                    <td class="text-center">${(usuario.admin ? '<i class="fas fa-check text-success"></i>': '<i class="fas fa-times text-danger"></i>')}</td>
+                    <td class="text-center">${(usuario.ativo  ? '<i class="fas fa-check text-success"></i>': '<i class="fas fa-times text-danger"></i>')}</td>
+                    <td class="text-center bt-action">
+                        <i class="fas fa-edit" title="Editar" onclick="usuarios.mostraForm('alterar',${usuario.id})"></i>
+                        <i class="fas fa-trash-alt" title="Excluir" onclick="usuarios.excluir(${usuario.id}, '${usuario.nome}')"></i>
+                    </td>
                 </tr>`;
             });
             tabela.innerHTML = valores;

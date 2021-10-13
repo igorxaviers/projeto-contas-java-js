@@ -27,25 +27,30 @@ public abstract class TemplateConta {
         }
         return flag;
     }
+    
 
     public final boolean alterarConta(Conta c) {
         double valor = 0;
         Caixa caixa = new Caixa(Banco.getConexao());
+        boolean flag = true;
 
-        if(c.getStatus() instanceof Aprovado)
+        if(c.valida())
         {
-            if(c.getTipo() == 0) //Conta a pagar
+            if(c.getStatus() instanceof Aprovado) //Se a conta for aprovada, será retirado do saldo o valor da conta
             {
-                if (caixa.getSaldo() > 0)
-                    valor = c.getValor() * -1;
+                if(c.getTipo() == 0) //Conta a pagar
+                {
+                    if (caixa.getSaldo() > 0) //Verifica se há saldo suficiente antes de salvar conta a PAgar
+                        valor = c.getValor() * -1; //Transforma valor em negativo para retirar do saldo
+                }
+                else //Conta a receber
+                    valor = c.getValor();
+                flag = caixa.alterarSaldo(valor, Banco.getConexao()); //Alterar o valor do saldo com base na conta Pagar(-) / Receber(+)
             }
-            else //Conta a receber
-                valor = c.getValor();
-                
-            caixa.alterarSaldo(valor, Banco.getConexao());
+            flag = this.alterar(c);
         }
+        return flag;
 
-        return this.alterar(c);
     }
 
     public final boolean excluirConta(Conta c) {

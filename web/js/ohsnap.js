@@ -42,7 +42,7 @@ function ohSnap(text, options) {
     }
 
     // Generate the HTML
-    var html = $('<div class="alert ' + color_markup + '">' + icon_markup + text + '</div>').fadeIn(options['fade-duration']);
+    var html = $('<div class="alerta ' + color_markup + '">' + icon_markup + text + '</div>').fadeIn(options['fade-duration']);
 
     // Append the label to the container
     $container.append(html);
@@ -77,7 +77,7 @@ function ohSnapX(element, options) {
             $(this).remove();
         });
     } else {
-        $('.alert').fadeOut(options.duration, function() {
+        $('.alerta').fadeOut(options.duration, function() {
             $(this).remove();
         });
     }

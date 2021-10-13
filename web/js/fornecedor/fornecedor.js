@@ -24,9 +24,10 @@ fornecedores = {
                     <td>${fornecedor.email}</td>
                     <td>${fornecedor.cep}</td> 
                     <td>${fornecedor.cidade}</td> 
-                    
-                    <td class="text-center"><i class="fas fa-edit" onclick="fornecedores.mostraForm('alterar',${fornecedor.cnpj})"></i></td>
-                    <td class="text-center"><i class="fas fa-trash-alt" onclick="fornecedores.excluir('${fornecedor.cnpj}', '${fornecedor.razao}')"></i></td>
+                    <td class="text-center">
+                        <i class="fas fa-edit" title="Editar" onclick="fornecedores.mostraForm('alterar', '${fornecedor.cnpj}')"></i>
+                        <i class="fas fa-trash-alt" title="Excluir" onclick="fornecedores.excluir('${fornecedor.cnpj}', '${fornecedor.razao}')"></i>
+                    </td>
                 </tr>`;
             });
             tabela.innerHTML = valores;
@@ -210,6 +211,7 @@ fornecedores = {
         }
         else
         {
+            console.log(cnpj)
             document.getElementById("cnpj-fornecedor").value = cnpj;
             HTTPClient.get(`/Fornecedores?acao=buscar&cnpj=${cnpj}`)
             .then(resp => {

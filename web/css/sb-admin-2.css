@@ -24,7 +24,7 @@
   --cyan: #36b9cc;
   --white: #fff;
   --gray: #858796;
-  --gray-dark: #5a5c69;
+  --gray-dark: #262626;
   --primary: var(--dark);
   --secondary: #858796;
   --success: #1cc88a;
@@ -37,7 +37,7 @@
   --breakpoint-md: 768px;
   --breakpoint-lg: 992px;
   --breakpoint-xl: 1200px;
-  --font-family-sans-serif: "Nunito", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-family-sans-serif: "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   --font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 }
 
@@ -59,12 +59,13 @@ article, aside, figcaption, figure, footer, header, hgroup, main, nav, section {
 }
 
 body {
+  overflow-x: hidden;
   margin: 0;
-  font-family: "Nunito", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-  font-size: 1rem;
+  font-family: "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-size: 14px;
   font-weight: 400;
   line-height: 1.5;
-  color: #858796;
+  color: #262626;
   text-align: left;
   background-color: #fff;
 }
@@ -1489,7 +1490,7 @@ pre code {
 .table {
   width: 100%;
   margin-bottom: 1rem;
-  color: #858796;
+  color: #4d4e51;
 }
 
 .table th,
@@ -1515,6 +1516,8 @@ pre code {
 
 .table-bordered {
   border: 1px solid #e3e6f0;
+  border-radius: 5px;
+  overflow: hidden;
 }
 
 .table-bordered th,
@@ -1524,7 +1527,8 @@ pre code {
 
 .table-bordered thead th,
 .table-bordered thead td {
-  border-bottom-width: 2px;
+  border-bottom-width: 0px;
+  background-color: #f4f4f4;
 }
 
 .table-borderless th,
@@ -1821,7 +1825,9 @@ pre code {
 .table-responsive {
   display: block;
   width: 100%;
-  overflow-x: auto;
+  /* overflow: auto; */
+  border: 1px solid #f0f0f0;
+  border-radius: 7px;
   -webkit-overflow-scrolling: touch;
 }
 
@@ -2620,8 +2626,8 @@ fieldset:disabled a.btn {
 
 .btn-dark {
   color: #fff;
-  background-color: #5a5c69;
-  border-color: #5a5c69;
+  background-color: #292929;
+  /* border-color: #5a5c69; */
 }
 
 .btn-dark:hover {
@@ -9816,7 +9822,7 @@ a:focus {
 .container-md,
 .container-lg,
 .container-xl {
-  padding-left: 1.5rem;
+  padding-left: 3.5rem;
   padding-right: 1.5rem;
 }
 
@@ -10020,7 +10026,7 @@ a:focus {
 }
 
 .text-gray-600 {
-  color: #858796 !important;
+  color: #262626!important;
 }
 
 .text-gray-700 {
@@ -10028,7 +10034,7 @@ a:focus {
 }
 
 .text-gray-800 {
-  color: #5a5c69 !important;
+  color: #262626 !important;
 }
 
 .text-gray-900 {
@@ -10173,6 +10179,9 @@ a:focus {
 
 .topbar {
   height: 4.375rem;
+  background-color: transparent !important;
+  background: transparent !important;
+  box-shadow: none !important;
 }
 
 .topbar #sidebarToggleTop {
@@ -10244,8 +10253,8 @@ a:focus {
 
 .topbar .dropdown-list .dropdown-item {
   white-space: normal;
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
+  padding-top: 0.8rem;
+  padding-bottom: 0.8rem;
   border-left: 1px solid #e3e6f0;
   border-right: 1px solid #e3e6f0;
   border-bottom: 1px solid #e3e6f0;
@@ -10291,9 +10300,12 @@ a:focus {
     width: auto;
     right: 0;
     top: 60px;
+    z-index: 61;
+    padding-bottom: 8px;
+    /* background: white; */
   }
   .topbar .dropdown-list {
-    width: 450px !important;
+    width: 580px !important;
   }
   .topbar .dropdown-list .dropdown-item .text-truncate {
     max-width: 13.375rem;
@@ -10695,11 +10707,14 @@ a:focus {
 }
 
 .sidebar-dark .nav-item .nav-link {
+  
   color: rgba(255, 255, 255, 0.8);
 }
 
 .sidebar-dark .nav-item .nav-link i {
   color: rgba(255, 255, 255, 0.3);
+  width: 30px;
+  text-align: inherit;
 }
 
 .sidebar-dark .nav-item .nav-link:active, .sidebar-dark .nav-item .nav-link:focus, .sidebar-dark .nav-item .nav-link:hover {
@@ -11287,7 +11302,7 @@ body.sidebar-toggled footer.sticky-footer {
   width: 100%;
 }
 
-.alert {
+.alerta {
   padding: 20px;
   margin-bottom: 20px;
   border: 1px solid #eed3d7;
@@ -11349,13 +11364,112 @@ input[type="date"]{
 }
 
 .status.Aprovado{
-  background-color: #149063;
+  background-color: var(--success);
+  box-shadow: 0 3px 13px 0 #1cc88abd;
 }
 
 .status.Pendente{
-  background-color: #ffc013;
+  background-color: var(--warning);
+  box-shadow: 0 3px 13px 0 var(--warning);
+
 }
 
 .status.Reprovado{
-  background-color: #ff0000;
+  background-color: var(--danger);
+  box-shadow: 0 3px 13px 0 var(--danger);
+}
+
+h1{
+  font-size: 40px !important;
+  font-weight: 700 !important;
+}
+
+h1 i{
+  font-size: 35px;
+  margin-right: 20px !important;
+
+}
+
+.fas{
+  cursor: pointer;
+  transition: 300ms;
+}
+
+.fa-edit{
+  text-align: center;
+  padding: 8px;
+  background-color: #f0f0f0;
+  border-radius: 4px;
+  margin-right: 10px;
+}
+
+.fa-trash-alt{
+  text-align: center;
+  padding: 8px;
+  background-color: #f0f0f0;
+  border-radius: 4px;
+}
+
+.fa-edit:hover, .fa-trash-alt:hover{
+  background-color: #fff;
+  box-shadow: 0 6px 8px 0 rgba(0, 0, 0, 0.1);
+  transform: scale(1.03);
+}
+
+.fa-edit:hover{
+  background-color: var(--warning);
+}
+
+.fa-trash-alt:hover{
+  background-color: var(--danger);
+
+  color: #fff;
+}
+
+.top-color{
+  background: linear-gradient(248deg, #f8f7a1, #83f7ff 116%);
+  width: 128%;
+  height: 425px;
+  left: 0;
+  top: 0;
+  position: absolute;
+  z-index: 1;
+}
+
+p{
+  position: relative;
+}
+
+ul, p, h1, button, a, .card{
+  z-index: 2;
+}
+.dropdown-menu{
+  z-index: 11;
+}
+
+.fa-bell{
+  font-size: 20px !important;
+  color: #262626;;
+}
+.badge{
+  font-size: 15px !important;
+  font-weight: 500;
+}
+
+.bt-cad{
+  transition: 300ms;
+  padding-top: 10px !important;
+  padding-bottom: 10px !important;
+}
+.bt-cad:hover{
+  background-color: #202020;
+  transform: scale(1.1);
+}
+
+nav{
+  z-index: 6;
+}
+
+#valor-caixa, #total-receber, #total-pagar{
+  font-size: 40px;
 }

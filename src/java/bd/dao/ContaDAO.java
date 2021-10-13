@@ -93,5 +93,63 @@ public class ContaDAO
         return lista;
     }
 
+    public ArrayList<Conta> getContasLimit(int limit, Conexao con)
+    {   
+        Conta c = new Conta();
+        ArrayList <Conta> lista = new ArrayList<>();
+        String aux;
+        String sql = "select * from contas order by cont_id limit "+ limit;
+        ResultSet rs = con.consultar(sql);
+        try
+        {
+            while(rs.next())
+            {
+                aux = rs.getString("cont_status");
+                lista.add(
+                    new Conta(
+                        rs.getInt("cont_id"),
+                        rs.getInt("cont_tipo"),
+                        rs.getString("cont_descricao"),
+                        rs.getDate("cont_data"),
+                        rs.getDate("cont_data_vencimento"),
+                        rs.getDouble("cont_valor"),
+                        new Usuario(rs.getInt("usu_id_usuarios")).getUsuario(con),
+                        c.valida(aux),
+                        new Fornecedor(rs.getString("forn_cnpj")).getFornecedor(con))
+                    );
+            }
+                
+        }
+        catch(Exception e){System.out.println(e);}
+        return lista;
+    }
+
+    public int countContas(int tipo, Conexao con)
+    {
+        String sql ="SELECT COUNT(cont_tipo) FROM contas WHERE cont_tipo = "+tipo;
+        ResultSet rs = con.consultar(sql);
+        int count = 0;
+        try
+        {
+            if(rs.next())
+                count = rs.getInt("count");
+
+        }catch(Exception e){System.out.println(e);}
+        return count;
+    }
+
+    public double somaValorContas(int tipo, Conexao con)
+    {
+        String sql ="SELECT SUM(cont_valor) AS soma FROM contas WHERE cont_tipo = "+ tipo;
+        ResultSet rs = con.consultar(sql);
+        double soma = 0;
+        try
+        {
+            if(rs.next())
+                soma = rs.getInt("soma");
+
+        }catch(Exception e){System.out.println(e);}
+        return soma;
+    }
     
 }

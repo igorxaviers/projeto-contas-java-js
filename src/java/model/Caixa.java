@@ -6,7 +6,6 @@ import bd.util.Conexao;
 public class Caixa 
 {
     public double saldo;
-    public boolean status;
 
     public Caixa(){ }
 
@@ -20,14 +19,6 @@ public class Caixa
 
     public void setSaldo(double saldo) {
         this.saldo = saldo;
-    }
-
-    public boolean isStatus() {
-        return status;
-    }
-
-    public void setStatus(boolean status) {
-        this.status = status;
     }
 
     public void getSaldo(Conexao con) {

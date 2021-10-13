@@ -141,6 +141,18 @@ public class Conta implements Sujeito
         return new ContaDAO().getContas(filtro, con);
     }
 
+    public ArrayList<Conta> getContas(int limit, Conexao con) {
+        return new ContaDAO().getContasLimit(limit, con);
+    }
+
+    public int countContas(int tipo, Conexao con) {
+        return new ContaDAO().countContas(tipo, con);
+    }
+
+    public double somaValorContas(int tipo, Conexao con) {
+        return new ContaDAO().somaValorContas(tipo, con);
+    }
+
     /* =============================================== */
 
     public String getDescricao() {

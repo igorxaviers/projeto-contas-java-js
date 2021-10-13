@@ -25,8 +25,10 @@ contas = {
                     <td>${conta.status.nome} <div class="status ${conta.status.nome}"></div></td> 
                     <td>R$${conta.valor}</td> 
                     <td>${tipo}</td> 
-                    <td class="text-center text-warning " onclick="contas.mostraForm('alterar',${conta.id})"><i class="fas fa-edit"></i></td>
-                    <td class="text-center text-danger" onclick="contas.excluir(${conta.id})"><i class="fas fa-trash-alt"></i></td>
+                    <td class="text-center bt-action">
+                        <i class="fas fa-edit" title="Editar" onclick="contas.mostraForm('alterar',${conta.id})"></i>
+                        <i class="fas fa-trash-alt" title="Excluir"  onclick="contas.excluir(${conta.id})"></i>
+                    </td>
                 </tr>`;
             });
             tabela.innerHTML = valores;
